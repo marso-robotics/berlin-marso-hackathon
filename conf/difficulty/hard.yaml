@@ -1,0 +1,14 @@
+# @package _global_
+# HARD — vision under stress and the GENERALISATION level. Wrist-camera RGB, light clutter,
+# 2 tag colours / 2 colour-coded bins, and ALL randomisation axes active at the narrow
+# training ranges defined in randomization/train.yaml (composed below). Held-out judging
+# (judge/heldout.yaml) widens and recombines these same axes.
+defaults:
+  - /randomization: train          # pulls the narrow training ranges into `randomization`
+  - _self_
+
+difficulty:
+  name: hard
+  num_parcels: 6
+  fixed_poses: false
+  obs_mode: rgb

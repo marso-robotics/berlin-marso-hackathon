@@ -1,0 +1,15 @@
+[workspace]
+channels = ["conda-forge"]
+name = "marso_hackathon"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+install = "pip install -e ."
+train = "python train.py"
+test = "python test.py"
+eval = "python eval.py"
+
+[dependencies]
+python = "3.12.*"
+pip = "*"

@@ -1,0 +1,25 @@
+# @package randomization
+# NARROW TRAINING RANGES for every randomisation axis (BUILD_SPEC §8).
+# This is the single source of the training distribution for HARD difficulty; hard.yaml
+# composes it. The held-out judging config (judge/heldout.yaml) uses the SAME schema with
+# strictly WIDER / unseen values. Every axis the policy must be robust to is present here at
+# a narrow range, so the capability is learnable; held-out tests generalisation along it.
+parcel_pose:
+  xy_jitter: [-0.03, 0.03]        # +/- m within the inbound zone
+  yaw_jitter: [-0.5, 0.5]         # rad, z-only -> tag stays top-visible
+bin_position:
+  side_swap_prob: 0.1             # red/blue sides swap in ~10% of episodes (narrow)
+  xy_jitter: [-0.02, 0.02]        # +/- m per-bin position jitter
+lighting:
+  intensity: [0.8, 1.2]           # scales the lighting rig
+  direction_jitter: [-0.2, 0.2]   # rad
+background:
+  # small training palette (warehouse-ish greys/tans)
+  table_colors: [[0.32, 0.30, 0.28], [0.28, 0.30, 0.30], [0.34, 0.32, 0.27]]
+  floor_colors: [[0.20, 0.20, 0.22], [0.22, 0.21, 0.20], [0.18, 0.20, 0.21]]
+appearance:
+  cardboard_shade: [-0.06, 0.06]  # brown shade jitter (keeps brown identity)
+  tag_shade: [-0.05, 0.05]        # tag shade jitter (red stays red, blue stays blue)
+clutter:
+  enabled: true
+  contact_ok: true                # parcels may touch; never stack/occlude (tag top-visible)

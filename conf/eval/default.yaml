@@ -1,0 +1,12 @@
+# VISIBLE eval config (BUILD_SPEC §8/§9). Same distribution as training: it provides only a
+# seed list and n_episodes, so the env uses the difficulty's own (narrow) training ranges.
+# Use this to rehearse the exact interface judges will run. The held-out judging config lives
+# in judge/heldout.yaml (NOT shipped) and is the same schema with widened/recombined values.
+#
+#   python eval.py difficulty=hard checkpoint=<path> eval_config=conf/eval/default.yaml
+#
+# (No `randomization:` block here -> the difficulty's training ranges are used unchanged.)
+eval:
+  n_episodes: 64
+  seeds: [5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007,
+          5008, 5009, 5010, 5011, 5012, 5013, 5014, 5015]

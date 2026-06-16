@@ -1,0 +1,20 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+# JUDGE-ONLY — held-out eval config, never shipped to competitors (BUILD_SPEC §10)
+judge/
+
+# run outputs / checkpoints
+outputs/
+*.pt
+
+# python
+__pycache__/
+*.pyc
+*.egg-info/
+.ipynb_checkpoints/
+
+# editor / local settings
+.vscode/
+.claude/

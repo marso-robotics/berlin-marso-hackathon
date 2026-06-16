@@ -1,0 +1,44 @@
+# Root config. Composes a difficulty (defaults list) + shared params.
+# Override anything on the CLI, e.g.  python train.py difficulty=hard num_envs=256
+defaults:
+  - difficulty: easy
+  - _self_
+
+# --- shared run params (BUILD_SPEC §8) ---
+seed: 0
+num_envs: 16
+total_steps: 100_000
+device: cuda
+reward: sparse                # sparse | example_dense  (default sparse, §6)
+control_mode: pd_ee_delta_pos # end-effector delta xyz + gripper (4 dims); see README §Action space
+max_episode_steps: 100
+
+# observation mode actually used. Defaults to the difficulty's default; train/test may
+# override on the CLI. eval.py IGNORES any override and locks to difficulty.obs_mode (§9).
+obs_mode: ${difficulty.obs_mode}
+
+camera:
+  width: 128
+  height: 128
+
+# checkpoint path (for test.py / eval.py; train.py writes one)
+checkpoint: null
+# eval config file path (eval.py only): conf/eval/default.yaml or judge/heldout.yaml
+eval_config: null
+# OPTIONAL policy entrypoint "module:function" for eval.py/test.py. The function signature is
+# fn(checkpoint, sample_obs, action_space, device) -> object with .act(obs, deterministic=True).
+# Lets you plug in ANY policy (not just the built-in Agent / not just RL). null -> built-in Agent.
+policy: null
+
+# --- PPO hyperparameters (a simple baseline loop; tune freely) ---
+ppo:
+  lr: 3.0e-4
+  num_steps: 50            # rollout length per env per update
+  update_epochs: 8
+  num_minibatches: 32
+  gamma: 0.95
+  gae_lambda: 0.95
+  clip_coef: 0.2
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5

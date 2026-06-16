@@ -1,0 +1,29 @@
+# @package _global_
+# MEDIUM — the first real (vision) level. Wrist-camera RGB, parcels in randomised
+# positions/orientations within the inbound zone (tag always top-visible). No appearance
+# randomisation; bins fixed. Only parcel_pose is populated.
+difficulty:
+  name: medium
+  num_parcels: 4
+  fixed_poses: false
+  obs_mode: rgb
+
+randomization:
+  parcel_pose:
+    xy_jitter: [-0.03, 0.03]      # narrow spawn jitter within the inbound zone (m)
+    yaw_jitter: [-0.4, 0.4]       # z-rotation only -> tag stays top-visible (rad)
+  bin_position:
+    side_swap_prob: 0.0
+    xy_jitter: [0.0, 0.0]
+  lighting:
+    intensity: [1.0, 1.0]
+    direction_jitter: [0.0, 0.0]
+  background:
+    table_colors: [[0.30, 0.30, 0.32]]
+    floor_colors: [[0.20, 0.20, 0.22]]
+  appearance:
+    cardboard_shade: [0.0, 0.0]
+    tag_shade: [0.0, 0.0]
+  clutter:
+    enabled: false
+    contact_ok: false
