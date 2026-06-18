@@ -29,6 +29,9 @@ eval_config: null
 # fn(checkpoint, sample_obs, action_space, device) -> object with .act(obs, deterministic=True).
 # Lets you plug in ANY policy (not just the built-in Agent / not just RL). null -> built-in Agent.
 policy: null
+# OPTIONAL path to write a Kaggle-format submission CSV (Id,sort_accuracy).
+# Set to e.g. submission_csv=/kaggle/working/submission.csv when running on Kaggle.
+submission_csv: null
 
 # --- PPO hyperparameters (a simple baseline loop; tune freely) ---
 ppo:

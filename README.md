@@ -278,6 +278,45 @@ the judges will run.
 
 ---
 
+## Kaggle submission
+
+The competition runs on [Kaggle](https://www.kaggle.com/competitions/marso-hack) — your score is
+posted to the leaderboard automatically when you submit a notebook.
+
+### Step-by-step
+
+1. **Upload your checkpoint** as a private Kaggle Dataset (kaggle.com/datasets/new → upload
+   `ckpt.pt`).
+
+2. **Copy the submission template notebook:**
+   [marso-hack-submission-template](https://www.kaggle.com/code/albatllezfernndez/marso-hack-submission-template)
+   → `Copy & Edit`.
+
+3. **Add your dataset** to the notebook (+ Add Data → your checkpoint dataset).
+
+4. **Set `CHECKPOINT_PATH`** in the first cell to your checkpoint's Kaggle path
+   (`/kaggle/input/<your-dataset-slug>/ckpt.pt`).
+
+5. **Run all cells.** The notebook installs dependencies, runs `eval.py` with
+   `submission_csv=/kaggle/working/submission.csv`, and prints your `sort_accuracy`.
+
+6. **Commit & submit** (top-right) — your score appears on the leaderboard.
+
+> GPU runtime is required (ManiSkill 3 uses CUDA + Vulkan). Enable it under
+> *Session options → Accelerator → GPU T4 × 1*.
+
+### Local dry-run (same command the notebook uses)
+
+```bash
+pixi run python eval.py difficulty=hard checkpoint=<path> \
+    eval_config=conf/eval/default.yaml \
+    submission_csv=submission.csv
+```
+
+This writes `submission.csv` in the current directory alongside the normal metric output.
+
+---
+
 ## Tips (not requirements)
 
 - Get `difficulty=easy` (state) running first to confirm your training loop works, then move to

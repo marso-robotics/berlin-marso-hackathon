@@ -15,6 +15,7 @@ Critical behaviour (BUILD_SPEC §9):
     config use the same pipeline -- only the randomisation values and seed list differ.
 """
 
+import csv
 import os
 
 import hydra
@@ -54,6 +55,14 @@ def main(cfg):
     print_metrics("EVAL", cfg.difficulty.name, locked_obs_mode, m,
                   hard=(cfg.difficulty.name == "hard"))
     env.close()
+
+    if cfg.get("submission_csv"):
+        os.makedirs(os.path.dirname(os.path.abspath(cfg.submission_csv)), exist_ok=True)
+        with open(cfg.submission_csv, "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["Id", "sort_accuracy"])
+            w.writerow(["submission", round(m["sort_accuracy"], 6)])
+        print(f"[eval] Kaggle submission CSV written -> {cfg.submission_csv}", flush=True)
 
     # every eval run also saves a video (RecordEpisode, all views: render + wrist sensor cam)
     out_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
