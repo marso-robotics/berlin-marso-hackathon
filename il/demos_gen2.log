@@ -1,0 +1,414 @@
+[33;1m2026-06-17 14:38:39,170 - mani_skill  - WARNING - mani_skill is not installed with git.[0m
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061  0.002  0.078]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.077 -0.008  0.2  ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.006  0.359  0.085]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.058 0.004 0.225]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.035 0.001 0.062]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.162]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.001 -0.104  0.263]  sorted=2.0
+  ep   0 seed=1000 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.055  0.002  0.122]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.084  0.004  0.201]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.003  0.35   0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.056 0.005 0.217]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.052 -0.003  0.06 ]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[ 0.005 -0.138  0.276]  sorted=1.0
+  step 140  phase=RELEASE   parcel=1  tcp=[-0.015 -0.364  0.096]  sorted=2.0
+  step 160  phase=DONE      parcel=2  tcp=[-0.003  0.001  0.255]  sorted=2.0
+  ep   1 seed=1001 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.001  0.072]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.081 -0.014  0.277]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.357  0.087]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.006  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.057 -0.01   0.059]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.37   0.162]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.003 -0.097  0.261]  sorted=2.0
+  ep   2 seed=1002 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.004  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.084 -0.006  0.284]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.016  0.355  0.079]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.055 -0.013  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.06  -0.012  0.062]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.006 -0.314  0.261]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.027 -0.294  0.163]  sorted=2.0
+  ep   3 seed=1003 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.066  0.003  0.075]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.075 -0.014  0.203]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.003  0.354  0.079]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.059 0.012 0.224]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.054 0.003 0.064]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.005 -0.247  0.261]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.027 -0.328  0.136]  sorted=2.0
+  ep   4 seed=1004 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.002  0.094]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.103  0.     0.193]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.356  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.052 0.003 0.217]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.042 -0.     0.06 ]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.002 -0.251  0.261]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.023 -0.325  0.124]  sorted=2.0
+  ep   5 seed=1005 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.056  0.002  0.223]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.068 -0.015  0.08 ]  sorted=0.0
+  step  60  phase=DROP      parcel=0  tcp=[-0.01   0.364  0.162]  sorted=0.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.055 0.113 0.221]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.063 0.004 0.061]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.007 -0.241  0.259]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.011 -0.349  0.114]  sorted=2.0
+  step 160  phase=DONE      parcel=2  tcp=[0.006 0.004 0.264]  sorted=2.0
+  ep   6 seed=1006 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.073]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.093  0.002  0.194]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.006  0.357  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.051 0.002 0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.064 -0.002  0.058]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.001 -0.204  0.261]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.01  -0.349  0.105]  sorted=2.0
+  step 160  phase=DONE      parcel=2  tcp=[-0.    -0.002  0.263]  sorted=2.0
+  ep   7 seed=1007 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.064 -0.     0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.068  0.002  0.315]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.348  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.065 -0.007  0.156]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.029 -0.006  0.157]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.01  -0.358  0.084]  sorted=2.0
+  step 140  phase=DONE      parcel=2  tcp=[ 0.005 -0.007  0.264]  sorted=2.0
+  ep   8 seed=1008 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.062 -0.001  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.085 -0.003  0.318]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.354  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.054 -0.01   0.222]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.059 -0.001  0.059]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.323  0.258]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.027 -0.29   0.17 ]  sorted=2.0
+  ep   9 seed=1009 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.057  0.004  0.087]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.07  -0.006  0.197]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.355  0.084]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.057 0.002 0.221]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.045 -0.003  0.065]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.37   0.162]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.005 -0.105  0.26 ]  sorted=2.0
+  ep  10 seed=1010 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.046  0.001  0.196]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.06  -0.009  0.061]  sorted=0.0
+  step  60  phase=DROP      parcel=0  tcp=[-0.007  0.363  0.201]  sorted=0.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.05 0.13 0.22]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.05  0.001 0.061]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.001 -0.286  0.259]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.019 -0.293  0.17 ]  sorted=2.0
+  ep  11 seed=1011 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.064  0.002  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.072  0.     0.31 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.004  0.355  0.091]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.011  0.165]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.04  -0.006  0.112]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.009 -0.36   0.099]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.001 -0.028  0.264]  sorted=2.0
+  ep  12 seed=1012 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059  0.002  0.09 ]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.063 -0.005  0.235]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.357  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.004  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.045 0.003 0.062]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.323  0.255]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.015 -0.245  0.206]  sorted=2.0
+  ep  13 seed=1013 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.053  0.002  0.121]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.073 -0.023  0.195]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.003  0.352  0.08 ]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.053 0.011 0.216]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.045 -0.009  0.059]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.37   0.164]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.005 -0.103  0.263]  sorted=2.0
+  ep  14 seed=1014 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.055 -0.002  0.161]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.067 -0.014  0.164]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.363  0.104]  sorted=0.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.054 0.025 0.221]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.053 -0.005  0.062]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.013 -0.345  0.256]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.016 -0.248  0.21 ]  sorted=2.0
+  ep  15 seed=1015 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.078 -0.005  0.278]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.348  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.006  0.203]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.077 -0.013  0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.004 -0.37   0.203]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.004 -0.144  0.257]  sorted=2.0
+  ep  16 seed=1016 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.055  0.002  0.125]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.081 -0.     0.2  ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.056 0.006 0.217]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.052 -0.008  0.066]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.004 -0.361  0.237]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.006 -0.176  0.249]  sorted=2.0
+  ep  17 seed=1017 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063 -0.     0.067]  sorted=0.0
+  step  40  phase=DESCEND   parcel=0  tcp=[-0.043  0.066  0.155]  sorted=0.0
+  step  60  phase=LIFT      parcel=0  tcp=[-0.057  0.046  0.156]  sorted=0.0
+  step  80  phase=RELEASE   parcel=0  tcp=[-0.005  0.354  0.082]  sorted=1.0
+  step 100  phase=ABOVE     parcel=1  tcp=[0.058 0.005 0.22 ]  sorted=1.0
+  step 120  phase=GRASP     parcel=1  tcp=[ 0.059 -0.002  0.06 ]  sorted=1.0
+  step 140  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.24 ]  sorted=1.0
+  step 160  phase=DONE      parcel=2  tcp=[ 0.001 -0.167  0.251]  sorted=2.0
+  ep  18 seed=1018 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.001  0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.076  0.003  0.233]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.357  0.078]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.     0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.051 -0.006  0.063]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.168]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.002 -0.099  0.26 ]  sorted=2.0
+  ep  19 seed=1019 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063  0.001  0.062]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083  0.01   0.321]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.352  0.085]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.054 -0.009  0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.058 0.007 0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.347  0.258]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.008 -0.222  0.237]  sorted=2.0
+  ep  20 seed=1020 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.002  0.068]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.089  0.008  0.284]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.349  0.093]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.062 -0.003  0.162]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.056 0.002 0.147]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.007 -0.36   0.103]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.004 -0.024  0.264]  sorted=2.0
+  ep  21 seed=1021 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.06   0.     0.067]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.059  0.003  0.314]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.353  0.087]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.001  0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.05  -0.005  0.143]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.012 -0.355  0.086]  sorted=2.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.002 -0.012  0.26 ]  sorted=2.0
+  ep  22 seed=1022 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.003  0.077]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.074  0.009  0.273]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.356  0.084]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.008  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.051 -0.004  0.059]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.002 -0.294  0.26 ]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.019 -0.286  0.166]  sorted=2.0
+  ep  23 seed=1023 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059 -0.001  0.09 ]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.073 -0.018  0.243]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.352  0.084]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.061 -0.008  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.05  -0.003  0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.125]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.006 -0.064  0.265]  sorted=2.0
+  ep  24 seed=1024 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.005  0.072]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.069  0.006  0.275]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.008  0.354  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.006  0.222]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.019 -0.014  0.083]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.363  0.125]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.001 -0.048  0.256]  sorted=2.0
+  ep  25 seed=1025 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065  0.001  0.062]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.069  0.001  0.233]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.357  0.077]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.057 0.006 0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.046 -0.009  0.062]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.003 -0.372  0.2  ]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.005 -0.144  0.257]  sorted=2.0
+  ep  26 seed=1026 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065 -0.004  0.079]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.065 -0.005  0.276]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.35   0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.01   0.206]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.049 0.005 0.059]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.011 -0.353  0.261]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.008 -0.225  0.224]  sorted=2.0
+  ep  27 seed=1027 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.006  0.058]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.069 -0.005  0.267]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.353  0.082]  sorted=1.0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ep  46 seed=1046 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065 -0.004  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.087 -0.011  0.281]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.355  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.059 -0.008  0.217]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.035 -0.003  0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.36   0.13 ]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.002 -0.053  0.264]  sorted=2.0
+  ep  47 seed=1047 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.     0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.083 -0.003  0.243]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.352  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.004  0.222]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.051 0.003 0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.364  0.163]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.001 -0.096  0.264]  sorted=2.0
+  ep  48 seed=1048 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.     0.093]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.082 -0.001  0.207]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.008  0.355  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.051 0.004 0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.049 -0.007  0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.325  0.258]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.018 -0.253  0.205]  sorted=2.0
+  ep  49 seed=1049 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.003  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.077 -0.     0.316]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.354  0.085]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.006  0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.038 -0.005  0.146]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.355  0.083]  sorted=2.0
+  step 140  phase=DONE      parcel=2  tcp=[ 0.002 -0.007  0.263]  sorted=2.0
+  ep  50 seed=1050 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.066]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.078 -0.002  0.235]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.356  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.005  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.047 -0.005  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.163]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.    -0.1    0.264]  sorted=2.0
+  ep  51 seed=1051 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.     0.063]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075 -0.004  0.312]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.355  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.01   0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.04  -0.008  0.155]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.006 -0.359  0.085]  sorted=2.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.    -0.005  0.266]  sorted=2.0
+  ep  52 seed=1052 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.003  0.078]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.086 -0.007  0.28 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.06  -0.007  0.199]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.026 0.004 0.114]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.362  0.127]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.004 -0.062  0.261]  sorted=2.0
+  ep  53 seed=1053 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061  0.003  0.12 ]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.09  -0.002  0.205]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.006  0.355  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.057 0.004 0.221]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.049 -0.003  0.063]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.366  0.164]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.004 -0.098  0.263]  sorted=2.0
+  ep  54 seed=1054 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06  -0.001  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.091 -0.006  0.279]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.352  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.061 -0.008  0.2  ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.045 0.    0.076]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.126]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.    -0.054  0.264]  sorted=2.0
+  ep  55 seed=1055 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.001  0.076]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.073  0.003  0.28 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.079]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.007  0.221]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.045 -0.     0.06 ]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.346  0.259]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.011 -0.219  0.234]  sorted=2.0
+  ep  56 seed=1056 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.002  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083  0.001  0.285]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.355  0.084]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.01   0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.048 0.004 0.056]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.344  0.255]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.019 -0.26   0.197]  sorted=2.0
+  ep  57 seed=1057 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.002  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.08  -0.003  0.281]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.356  0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.008  0.222]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.056 -0.006  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.01  -0.348  0.257]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.01  -0.214  0.236]  sorted=2.0
+  ep  58 seed=1058 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.     0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.078 -0.001  0.278]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.348  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.006  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.041 -0.     0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.363  0.128]  sorted=1.0
+  step 140  phase=DONE      parcel=2  tcp=[-0.001 -0.06   0.265]  sorted=2.0
+  ep  59 seed=1059 sorted=2/2 success=True
+
+recorded 60 episodes  (60 full-success)  -> /home/david/code/marso_hackathon/il/demos/easy/trajectory.h5
+
+[replay -> state]  /home/david/code/marso_hackathon/.pixi/envs/default/bin/python /home/david/code/marso_hackathon/il/_replay.py --traj-path /home/david/code/marso_hackathon/il/demos/easy/trajectory.h5 --obs-mode state --sim-backend physx_cuda --save-traj --num-envs 1
+  0%|          | 0/12 [00:00<?, ?step/s]0step [00:00, ?step/s]Traceback (most recent call last):
+  File "/home/david/code/marso_hackathon/il/_replay.py", line 16, in <module>
+    main(parse_args())
+  File "/home/david/code/marso_hackathon/.pixi/envs/default/lib/python3.12/site-packages/mani_skill/trajectory/replay_trajectory.py", line 554, in main
+    _, replay_result = _main(
+                       ^^^^^^
+  File "/home/david/code/marso_hackathon/.pixi/envs/default/lib/python3.12/site-packages/mani_skill/trajectory/replay_trajectory.py", line 397, in _main
+    ori_h5_file = h5py.File(traj_path, "r")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/david/code/marso_hackathon/.pixi/envs/default/lib/python3.12/site-packages/h5py/_hl/files.py", line 555, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/david/code/marso_hackathon/.pixi/envs/default/lib/python3.12/site-packages/h5py/_hl/files.py", line 232, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 106, in h5py.h5f.open
+BlockingIOError: [Errno 11] Unable to synchronously open file (unable to lock file, errno = 11, error message = 'Resource temporarily unavailable')
+0step [00:00, ?step/s]
+  0%|          | 0/12 [00:00<?, ?step/s]
+Traceback (most recent call last):
+  File "/home/david/code/marso_hackathon/il/gen_demos.py", line 142, in <module>
+    main()
+  File "/home/david/code/marso_hackathon/il/gen_demos.py", line 138, in main
+    replay(h5, om, om)
+  File "/home/david/code/marso_hackathon/il/gen_demos.py", line 107, in replay
+    subprocess.run(cmd, check=True)
+  File "/home/david/code/marso_hackathon/.pixi/envs/default/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/david/code/marso_hackathon/.pixi/envs/default/bin/python', '/home/david/code/marso_hackathon/il/_replay.py', '--traj-path', '/home/david/code/marso_hackathon/il/demos/easy/trajectory.h5', '--obs-mode', 'state', '--sim-backend', 'physx_cuda', '--save-traj', '--num-envs', '1']' returned non-zero exit status 1.

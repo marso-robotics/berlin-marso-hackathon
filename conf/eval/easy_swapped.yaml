@@ -1,0 +1,33 @@
+# Generalisation eval for an EASY-trained policy: same task (2 parcels, state obs, fixed poses)
+# but the red/blue bins are SWAPPED to the opposite sides on every episode
+# (side_swap_prob: 1.0). The easy training demos always had red on +y, so this tests whether
+# the policy routes by reading bin position/colour (in the state vector) rather than memorising
+# "red -> left". Seeds are distinct from conf/eval/default.yaml.
+#
+#   pixi run python eval.py difficulty=easy policy=warehouse_sort.il_policy:load_dp \
+#       checkpoint=<dp_ckpt> eval_config=conf/eval/easy_swapped.yaml
+eval:
+  n_episodes: 64
+  seeds: [7000, 7001, 7002, 7003, 7004, 7005, 7006, 7007,
+          7008, 7009, 7010, 7011, 7012, 7013, 7014, 7015]
+
+# Full randomisation schema (easy = all zero) with ONLY the bin side-swap turned on.
+randomization:
+  parcel_pose:
+    xy_jitter: [0.0, 0.0]
+    yaw_jitter: [0.0, 0.0]
+  bin_position:
+    side_swap_prob: 1.0        # <-- bins always swapped
+    xy_jitter: [0.0, 0.0]
+  lighting:
+    intensity: [1.0, 1.0]
+    direction_jitter: [0.0, 0.0]
+  background:
+    table_colors: [[0.30, 0.30, 0.32]]
+    floor_colors: [[0.20, 0.20, 0.22]]
+  appearance:
+    cardboard_shade: [0.0, 0.0]
+    tag_shade: [0.0, 0.0]
+  clutter:
+    enabled: false
+    contact_ok: false

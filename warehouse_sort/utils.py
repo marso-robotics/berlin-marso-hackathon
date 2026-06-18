@@ -16,6 +16,47 @@ from mani_skill.vector.wrappers.gymnasium import ManiSkillVectorEnv
 REWARD_MODE = {"sparse": "sparse", "example_dense": "normalized_dense"}
 
 
+def _gym_make(cfg, obs_mode, randomization, n, render_mode):
+    """Construct the raw (unwrapped) ManiSkill env for the configured `env_id`.
+
+    Default is the full WarehouseSort-v1 task (all difficulty/randomisation kwargs). The
+    short-horizon SimpleSort-v1 ablation (one parcel, two bins, env+reward in one file) takes
+    only the standard ManiSkill kwargs — none of WarehouseSort's parcel/randomisation knobs —
+    so the same train/test/eval harness drives either env via `difficulty=simple`.
+    """
+    env_id = cfg.get("env_id", "WarehouseSort-v1")
+    if env_id == "SimpleSort-v1":
+        return gym.make(
+            "SimpleSort-v1",
+            num_envs=n,
+            obs_mode=obs_mode,
+            control_mode=cfg.control_mode,
+            sim_backend="gpu",
+            render_mode=render_mode,
+            reward_mode=REWARD_MODE[cfg.reward],
+            max_episode_steps=cfg.max_episode_steps,
+        )
+    return gym.make(
+        "WarehouseSort-v1",
+        num_envs=n,
+        obs_mode=obs_mode,
+        control_mode=cfg.control_mode,
+        sim_backend="gpu",
+        render_mode=render_mode,
+        reward_mode=REWARD_MODE[cfg.reward],
+        max_episode_steps=cfg.max_episode_steps,
+        difficulty=cfg.difficulty.name,
+        num_parcels=cfg.difficulty.num_parcels,
+        fixed_poses=cfg.difficulty.fixed_poses,
+        reward_option=cfg.reward,
+        reward_impl=cfg.get("reward_impl", "example_dense"),
+        camera_width=cfg.camera.width,
+        camera_height=cfg.camera.height,
+        obs_camera=cfg.get("obs_camera", "scene"),
+        randomization=OmegaConf.to_container(randomization, resolve=True),
+    )
+
+
 def compose_cfg(overrides=None, config_dir=None):
     """Load the Hydra config outside the @hydra.main scripts (used by the notebook).
     Uses an absolute config dir (default <cwd>/conf) so it works under Jupyter/nbconvert, and
@@ -144,23 +185,7 @@ def record_eval_video(cfg, obs_mode, randomization, agent, device, out_dir,
     policy's sensor camera input (the Panda wrist camera). Called by eval.py on every run."""
     from mani_skill.utils.wrappers.record import RecordEpisode
 
-    env = gym.make(
-        "WarehouseSort-v1",
-        num_envs=n_envs,
-        obs_mode=obs_mode,
-        control_mode=cfg.control_mode,
-        sim_backend="gpu",
-        render_mode="all",                 # render + sensor cameras tiled into each frame
-        reward_mode=REWARD_MODE[cfg.reward],
-        max_episode_steps=cfg.max_episode_steps,
-        difficulty=cfg.difficulty.name,
-        num_parcels=cfg.difficulty.num_parcels,
-        fixed_poses=cfg.difficulty.fixed_poses,
-        reward_option=cfg.reward,
-        camera_width=cfg.camera.width,
-        camera_height=cfg.camera.height,
-        randomization=OmegaConf.to_container(randomization, resolve=True),
-    )
+    env = _gym_make(cfg, obs_mode, randomization, n_envs, render_mode="all")
     if obs_mode == "rgb":
         env = FlattenRGBDObservationWrapper(env, rgb=True, depth=False, state=True)
     env = RecordEpisode(
@@ -200,34 +225,47 @@ def make_env(
     num_envs: Optional[int] = None,
     render_mode: Optional[str] = None,
     record_metrics: bool = True,
+    ignore_terminations: bool = True,
+    video_dir: Optional[str] = None,
 ):
     """Construct the WarehouseSort env + standard ManiSkill vector wrappers.
 
     Returns (vector_env, is_rgb). For rgb obs the observation is a dict {"rgb", "state"};
     for state obs it is a flat tensor.
+
+    ``ignore_terminations`` controls auto-reset behaviour (ManiSkill's `partial_reset`):
+    train.py passes ``False`` so each env resets the instant it succeeds (matching the
+    ManiSkill PPO baseline); the periodic eval / test.py / eval.py keep the default ``True``
+    so every episode runs the full fixed horizon and the end-of-episode geometric state is
+    read once.
+
+    ``video_dir`` (set for the in-loop eval, mirroring the baseline's RecordEpisode on
+    eval_envs): if given, the env renders ``all`` views (render camera + wrist sensor) and a
+    RecordEpisode wrapper saves an mp4 of each eval rollout there.
     """
+    from mani_skill.utils.wrappers.record import RecordEpisode
+
     n = int(num_envs if num_envs is not None else cfg.num_envs)
     is_rgb = obs_mode == "rgb"
-    env = gym.make(
-        "WarehouseSort-v1",
-        num_envs=n,
-        obs_mode=obs_mode,
-        control_mode=cfg.control_mode,
-        sim_backend="gpu",
-        render_mode=render_mode,
-        reward_mode=REWARD_MODE[cfg.reward],
-        max_episode_steps=cfg.max_episode_steps,
-        difficulty=cfg.difficulty.name,
-        num_parcels=cfg.difficulty.num_parcels,
-        fixed_poses=cfg.difficulty.fixed_poses,
-        reward_option=cfg.reward,
-        camera_width=cfg.camera.width,
-        camera_height=cfg.camera.height,
-        randomization=OmegaConf.to_container(randomization, resolve=True),
-    )
+    if video_dir is not None and render_mode is None:
+        render_mode = "all"          # render camera + wrist sensor, tiled (see env.render)
+    env = _gym_make(cfg, obs_mode, randomization, n, render_mode)
     if is_rgb:
         env = FlattenRGBDObservationWrapper(env, rgb=True, depth=False, state=True)
+    if video_dir is not None:
+        env = RecordEpisode(
+            env, output_dir=video_dir, save_trajectory=False, save_video=True,
+            video_fps=20, max_steps_per_video=cfg.max_episode_steps,
+        )
     env = ManiSkillVectorEnv(
-        env, num_envs=n, ignore_terminations=True, record_metrics=record_metrics
+        env, num_envs=n, ignore_terminations=ignore_terminations, record_metrics=record_metrics
     )
     return env, is_rgb
+
+
+def index_obs(obs, mask):
+    """Index a (possibly dict) observation along the env/batch axis. Used to bootstrap the
+    value of the `final_observation` of just the envs that terminated this step."""
+    if isinstance(obs, dict):
+        return {k: v[mask] for k, v in obs.items()}
+    return obs[mask]

@@ -1,0 +1,498 @@
+[33;1m2026-06-17 13:31:58,842 - mani_skill  - WARNING - mani_skill is not installed with git.[0m
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.001  0.076]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083 -0.006  0.282]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.354  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.064 -0.008  0.203]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.025 -0.001  0.114]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.359  0.099]  sorted=1.0
+  ep   0 seed=1000 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.001  0.093]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.084  0.001  0.239]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.349  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.007  0.218]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.049 -0.011  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.363  0.163]  sorted=1.0
+  ep   1 seed=1001 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.     0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083 -0.01   0.277]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.355  0.085]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.007  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.055 -0.007  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.369  0.163]  sorted=1.0
+  ep   2 seed=1002 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.002  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.084 -0.005  0.282]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.354  0.08 ]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.055 -0.011  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.053 -0.01   0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.01  -0.355  0.259]  sorted=1.0
+  ep   3 seed=1003 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065  0.002  0.074]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.076 -0.01   0.201]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.004  0.355  0.081]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.058 0.008 0.223]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.054 0.001 0.062]  sorted=1.0
+  step 120  phase=CARRY     parcel=1  tcp=[-0.004 -0.248  0.26 ]  sorted=1.0
+  ep   4 seed=1004 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.074]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.099 -0.002  0.275]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.354  0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.054 -0.009  0.217]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.048 -0.003  0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.348  0.259]  sorted=1.0
+  ep   5 seed=1005 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.078 -0.012  0.277]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.351  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.006  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.05  0.003 0.059]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.368  0.203]  sorted=1.0
+  ep   6 seed=1006 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.073]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.089  0.001  0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.354  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.053 -0.007  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.046 -0.005  0.077]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.362  0.126]  sorted=1.0
+  ep   7 seed=1007 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063 -0.     0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075 -0.001  0.317]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.35   0.084]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.007  0.159]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.029 -0.006  0.153]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.009 -0.358  0.084]  sorted=2.0
+  ep   8 seed=1008 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.062 -0.001  0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.086 -0.004  0.318]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.353  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.059 -0.008  0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.036 -0.005  0.15 ]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.356  0.084]  sorted=2.0
+  ep   9 seed=1009 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.058  0.002  0.089]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.078 -0.004  0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.352  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.007  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.034 -0.003  0.079]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.126]  sorted=1.0
+  ep  10 seed=1010 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059  0.001  0.09 ]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.084 -0.012  0.24 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.351  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.054 -0.008  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.04  0.    0.076]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.003 -0.366  0.166]  sorted=1.0
+  ep  11 seed=1011 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063  0.001  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.078 -0.002  0.313]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.354  0.089]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.009  0.164]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.038 -0.005  0.112]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.009 -0.36   0.099]  sorted=1.0
+  ep  12 seed=1012 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059  0.001  0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.071 -0.005  0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.355  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.005  0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.048 0.002 0.062]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.009 -0.347  0.255]  sorted=1.0
+  ep  13 seed=1013 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.054  0.001  0.121]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.076 -0.015  0.197]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.005  0.353  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.054 0.008 0.218]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.051 -0.006  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.364  0.24 ]  sorted=1.0
+  ep  14 seed=1014 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.001  0.072]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.072 -0.011  0.238]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.356  0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.055 -0.005  0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.052 -0.004  0.06 ]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.009 -0.323  0.257]  sorted=1.0
+  ep  15 seed=1015 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.08  -0.005  0.279]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.35   0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.006  0.202]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.053 -0.013  0.074]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.365  0.127]  sorted=1.0
+  ep  16 seed=1016 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.084 -0.001  0.28 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.351  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.008  0.197]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.052 -0.005  0.063]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.364  0.165]  sorted=1.0
+  ep  17 seed=1017 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063 -0.     0.066]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083 -0.003  0.318]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.349  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.062 -0.006  0.164]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.042 -0.003  0.152]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.356  0.084]  sorted=2.0
+  ep  18 seed=1018 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.     0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.079 -0.     0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.355  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.002  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.05  -0.005  0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.166]  sorted=1.0
+  ep  19 seed=1019 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.063  0.001  0.063]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.084  0.004  0.32 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.352  0.085]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.055 -0.008  0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.056 0.003 0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.347  0.258]  sorted=1.0
+  ep  20 seed=1020 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.001  0.067]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.089  0.004  0.323]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01  0.35  0.09]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.061 -0.004  0.163]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.046 -0.     0.148]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.009 -0.358  0.084]  sorted=2.0
+  ep  21 seed=1021 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.     0.066]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.069 -0.     0.316]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.352  0.086]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.003  0.165]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.043 -0.005  0.146]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.011 -0.356  0.085]  sorted=2.0
+  ep  22 seed=1022 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.002  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.077  0.003  0.276]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.354  0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.008  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.052 -0.003  0.06 ]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.326  0.259]  sorted=1.0
+  ep  23 seed=1023 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06  -0.     0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.077 -0.013  0.241]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.352  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.059 -0.007  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.045 -0.003  0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.126]  sorted=1.0
+  ep  24 seed=1024 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.003  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075  0.002  0.277]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.353  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.007  0.221]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.025 -0.01   0.078]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.125]  sorted=1.0
+  ep  25 seed=1025 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.063]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.077 -0.001  0.274]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.353  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.063 -0.007  0.2  ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.032 -0.008  0.111]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.006 -0.362  0.099]  sorted=1.0
+  ep  26 seed=1026 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.002  0.077]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.072 -0.004  0.277]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.351  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.062 -0.009  0.204]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.033 0.002 0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.364  0.165]  sorted=1.0
+  ep  27 seed=1027 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064 -0.004  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075 -0.005  0.272]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.353  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.006  0.222]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.035 -0.003  0.077]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.363  0.125]  sorted=1.0
+  ep  28 seed=1028 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061 -0.002  0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075 -0.005  0.321]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.352  0.088]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.062 -0.005  0.167]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.038 -0.002  0.152]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.005 -0.361  0.086]  sorted=2.0
+  ep  29 seed=1029 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.002  0.076]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.082  0.004  0.273]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.006  0.217]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.045 -0.004  0.064]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.369  0.159]  sorted=1.0
+  ep  30 seed=1030 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.062 -0.001  0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.095 -0.01   0.323]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.355  0.087]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.008  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.046 0.001 0.065]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.01  -0.344  0.256]  sorted=1.0
+  ep  31 seed=1031 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059  0.001  0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.079 -0.013  0.2  ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.056 0.002 0.221]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.055 -0.007  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.366  0.24 ]  sorted=1.0
+  ep  32 seed=1032 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.003  0.074]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.085 -0.008  0.237]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.351  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.007  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.046 -0.004  0.077]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.361  0.126]  sorted=1.0
+  ep  33 seed=1033 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063  0.001  0.074]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.079 -0.012  0.279]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.019  0.351  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.06  -0.008  0.2  ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.027 0.001 0.107]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.009 -0.361  0.099]  sorted=1.0
+  ep  34 seed=1034 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065  0.002  0.075]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.077 -0.003  0.235]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.353  0.08 ]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.057 -0.005  0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.047 -0.007  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.323  0.258]  sorted=1.0
+  ep  35 seed=1035 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.002  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.071 -0.     0.279]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.35   0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.064 -0.011  0.201]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.044 -0.005  0.109]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.007 -0.359  0.101]  sorted=1.0
+  ep  36 seed=1036 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.001  0.092]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.089 -0.005  0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.011  0.352  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.007  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.054 -0.005  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.365  0.163]  sorted=1.0
+  ep  37 seed=1037 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.059  0.     0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.079  0.003  0.242]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.354  0.077]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.004  0.222]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.058 -0.     0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.364  0.241]  sorted=1.0
+  ep  38 seed=1038 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.062  0.003  0.063]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.046  0.016  0.342]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.348  0.088]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.004  0.125]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.033 -0.008  0.189]  sorted=1.0
+  ep  39 seed=1039 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.001  0.094]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.082 -0.008  0.2  ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.356  0.086]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.056 0.004 0.224]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.054 -0.01   0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.367  0.164]  sorted=1.0
+  ep  40 seed=1040 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.072]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.071 -0.002  0.278]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.016  0.35   0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.009  0.219]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.056 -0.003  0.054]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.009 -0.345  0.256]  sorted=1.0
+  ep  41 seed=1041 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.057 -0.002  0.121]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.078 -0.004  0.196]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.358  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.054 0.007 0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.056 -0.005  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.367  0.2  ]  sorted=1.0
+  ep  42 seed=1042 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.064 -0.     0.065]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.088 -0.01   0.314]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.355  0.087]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.061 -0.004  0.165]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.035 -0.009  0.151]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.359  0.086]  sorted=2.0
+  ep  43 seed=1043 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.074]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.081 -0.006  0.236]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.355  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.057 -0.003  0.218]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.058 -0.005  0.058]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.367  0.202]  sorted=1.0
+  ep  44 seed=1044 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.06  -0.001  0.068]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.072 -0.019  0.317]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.355  0.086]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.062 -0.006  0.164]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.037 -0.005  0.077]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.009 -0.364  0.127]  sorted=1.0
+  ep  45 seed=1045 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.001  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.085 -0.004  0.316]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.352  0.084]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.059 -0.005  0.162]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.044 -0.003  0.077]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.126]  sorted=1.0
+  ep  46 seed=1046 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.065 -0.004  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.087 -0.011  0.281]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.007  0.355  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.059 -0.008  0.217]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.035 -0.003  0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.36   0.13 ]  sorted=1.0
+  ep  47 seed=1047 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06   0.     0.091]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.083 -0.003  0.243]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.013  0.352  0.079]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.004  0.222]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.051 0.003 0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.364  0.163]  sorted=1.0
+  ep  48 seed=1048 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.063 -0.     0.093]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.082 -0.001  0.207]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.008  0.355  0.082]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[0.051 0.004 0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.049 -0.007  0.061]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.325  0.258]  sorted=1.0
+  ep  49 seed=1049 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.003  0.064]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.077 -0.     0.316]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.012  0.354  0.085]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.006  0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.038 -0.005  0.146]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.008 -0.355  0.083]  sorted=2.0
+  ep  50 seed=1050 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.001  0.066]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.078 -0.002  0.235]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.356  0.08 ]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.055 -0.005  0.219]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.047 -0.005  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.366  0.163]  sorted=1.0
+  ep  51 seed=1051 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=GRASP     parcel=0  tcp=[-0.061  0.     0.063]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.075 -0.004  0.312]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.015  0.355  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.058 -0.01   0.166]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.04  -0.008  0.155]  sorted=1.0
+  step 120  phase=RELEASE   parcel=1  tcp=[-0.006 -0.359  0.085]  sorted=2.0
+  ep  52 seed=1052 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.003  0.078]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.086 -0.007  0.28 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.06  -0.007  0.199]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.026 0.004 0.114]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.362  0.127]  sorted=1.0
+  ep  53 seed=1053 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061  0.003  0.12 ]  sorted=0.0
+  step  40  phase=LIFT      parcel=0  tcp=[-0.09  -0.002  0.205]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.006  0.355  0.082]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[0.057 0.004 0.221]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.049 -0.003  0.063]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.005 -0.366  0.164]  sorted=1.0
+  ep  54 seed=1054 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.06  -0.001  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.091 -0.006  0.279]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.352  0.083]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.061 -0.008  0.2  ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[0.045 0.    0.076]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.006 -0.363  0.126]  sorted=1.0
+  ep  55 seed=1055 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.062  0.001  0.076]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.073  0.003  0.28 ]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.352  0.079]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.007  0.221]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.045 -0.     0.06 ]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.346  0.259]  sorted=1.0
+  ep  56 seed=1056 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.064  0.002  0.073]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.083  0.001  0.285]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.01   0.355  0.084]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.01   0.22 ]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[0.048 0.004 0.056]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.008 -0.344  0.255]  sorted=1.0
+  ep  57 seed=1057 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.002  0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.08  -0.003  0.281]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.014  0.356  0.083]  sorted=1.0
+  step  80  phase=ABOVE     parcel=1  tcp=[ 0.056 -0.008  0.222]  sorted=1.0
+  step 100  phase=GRASP     parcel=1  tcp=[ 0.056 -0.006  0.057]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.01  -0.348  0.257]  sorted=1.0
+  ep  58 seed=1058 sorted=2/2 success=True
+  step   0  phase=OPEN      parcel=0  tcp=[-0.    0.    0.17]  sorted=0.0
+  step  20  phase=DESCEND   parcel=0  tcp=[-0.061 -0.     0.075]  sorted=0.0
+  step  40  phase=CARRY     parcel=0  tcp=[-0.078 -0.001  0.278]  sorted=0.0
+  step  60  phase=RELEASE   parcel=0  tcp=[-0.009  0.348  0.081]  sorted=1.0
+  step  80  phase=DESCEND   parcel=1  tcp=[ 0.056 -0.006  0.22 ]  sorted=1.0
+  step 100  phase=LIFT      parcel=1  tcp=[ 0.041 -0.     0.075]  sorted=1.0
+  step 120  phase=DROP      parcel=1  tcp=[-0.007 -0.363  0.128]  sorted=1.0
+  ep  59 seed=1059 sorted=2/2 success=True
+
+recorded 60 episodes  (60 full-success)  -> /home/david/code/marso_hackathon/il/demos/easy/trajectory.h5
+
+[replay -> state]  /home/david/code/marso_hackathon/.pixi/envs/default/bin/python /home/david/code/marso_hackathon/il/_replay.py --traj-path /home/david/code/marso_hackathon/il/demos/easy/trajectory.h5 --obs-mode state --sim-backend physx_cuda --save-traj --num-envs 1
+  0%|          | 0/60 [00:00<?, ?step/s]0step [00:00, ?step/s][33;1m2026-06-17 13:37:46,720 - mani_skill  - WARNING - mani_skill is not installed with git.[0m
+  0%|          | 0/60 [00:00<?, ?step/s]  0%|          | 0/60 [00:00<?, ?step/s][33;1m2026-06-17 13:37:46,764 - mani_skill  - WARNING - Reset kwargs includes options, which are not supported in GPU sim replay and will be ignored.[0m
+  2%|▏         | 1/60 [00:07<07:20,  7.46s/step]  3%|▎         | 2/60 [00:13<06:16,  6.49s/step]  5%|▌         | 3/60 [00:16<04:49,  5.07s/step]  7%|▋         | 4/60 [00:19<03:46,  4.05s/step]  8%|▊         | 5/60 [00:21<03:13,  3.52s/step] 10%|█         | 6/60 [00:24<02:53,  3.22s/step] 12%|█▏        | 7/60 [00:27<02:47,  3.17s/step] 13%|█▎        | 8/60 [00:32<03:10,  3.66s/step] 15%|█▌        | 9/60 [00:36<03:18,  3.90s/step] 17%|█▋        | 10/60 [00:41<03:32,  4.25s/step] 18%|█▊        | 11/60 [00:47<03:46,  4.62s/step] 20%|██        | 12/60 [00:52<03:55,  4.90s/step] 22%|██▏       | 13/60 [00:58<03:58,  5.07s/step] 23%|██▎       | 14/60 [01:03<03:58,  5.19s/step] 25%|██▌       | 15/60 [01:08<03:55,  5.24s/step] 27%|██▋       | 16/60 [01:14<03:52,  5.29s/step] 28%|██▊       | 17/60 [01:19<03:51,  5.38s/step] 30%|███       | 18/60 [01:25<03:48,  5.44s/step] 32%|███▏      | 19/60 [01:30<03:40,  5.38s/step] 33%|███▎      | 20/60 [01:37<03:47,  5.68s/step] 35%|███▌      | 21/60 [01:44<03:57,  6.09s/step] 37%|███▋      | 22/60 [01:51<04:08,  6.54s/step] 38%|███▊      | 23/60 [01:59<04:13,  6.85s/step] 40%|████      | 24/60 [02:07<04:20,  7.24s/step] 42%|████▏     | 25/60 [02:15<04:22,  7.51s/step] 43%|████▎     | 26/60 [02:23<04:20,  7.66s/step] 45%|████▌     | 27/60 [02:31<04:18,  7.84s/step] 47%|████▋     | 28/60 [02:40<04:16,  8.01s/step] 48%|████▊     | 29/60 [02:48<04:08,  8.03s/step] 50%|█████     | 30/60 [02:56<04:02,  8.08s/step] 52%|█████▏    | 31/60 [03:04<03:53,  8.04s/step] 53%|█████▎    | 32/60 [03:13<03:50,  8.24s/step] 55%|█████▌    | 33/60 [03:21<03:43,  8.26s/step] 57%|█████▋    | 34/60 [03:29<03:33,  8.21s/step] 58%|█████▊    | 35/60 [03:37<03:22,  8.10s/step] 60%|██████    | 36/60 [03:45<03:16,  8.17s/step] 62%|██████▏   | 37/60 [03:53<03:03,  7.99s/step] 63%|██████▎   | 38/60 [03:57<02:33,  6.98s/step] 65%|██████▌   | 39/60 [04:00<01:58,  5.62s/step] 67%|██████▋   | 40/60 [04:02<01:32,  4.63s/step] 68%|██████▊   | 41/60 [04:05<01:14,  3.95s/step] 70%|███████   | 42/60 [04:07<01:02,  3.48s/step] 72%|███████▏  | 43/60 [04:09<00:53,  3.14s/step] 73%|███████▎  | 44/60 [04:12<00:46,  2.88s/step] 75%|███████▌  | 45/60 [04:14<00:40,  2.72s/step] 77%|███████▋  | 46/60 [04:16<00:36,  2.61s/step] 78%|███████▊  | 47/60 [04:19<00:32,  2.53s/step] 80%|████████  | 48/60 [04:21<00:29,  2.48s/step] 82%|████████▏ | 49/60 [04:23<00:26,  2.44s/step] 83%|████████▎ | 50/60 [04:26<00:24,  2.44s/step] 85%|████████▌ | 51/60 [04:28<00:21,  2.41s/step] 87%|████████▋ | 52/60 [04:30<00:19,  2.38s/step] 88%|████████▊ | 53/60 [04:33<00:16,  2.34s/step] 90%|█████████ | 54/60 [04:35<00:14,  2.34s/step] 92%|█████████▏| 55/60 [04:37<00:11,  2.34s/step] 93%|█████████▎| 56/60 [04:40<00:09,  2.33s/step] 95%|█████████▌| 57/60 [04:42<00:07,  2.36s/step] 97%|█████████▋| 58/60 [04:45<00:04,  2.37s/step] 98%|█████████▊| 59/60 [04:47<00:02,  2.38s/step]100%|██████████| 60/60 [04:49<00:00,  2.36s/step]100%|██████████| 60/60 [04:49<00:00,  4.83s/step]
+  0%|          | 0/60 [04:52<?, ?step/s]
+Replayed 60 episodes, 60/60=100.00% demos saved
+[replay] done (state); see /home/david/code/marso_hackathon/il/demos/easy
+
+[replay -> rgb]  /home/david/code/marso_hackathon/.pixi/envs/default/bin/python /home/david/code/marso_hackathon/il/_replay.py --traj-path /home/david/code/marso_hackathon/il/demos/easy/trajectory.h5 --obs-mode rgb --sim-backend physx_cuda --save-traj --num-envs 1
+  0%|          | 0/60 [00:00<?, ?step/s]0step [00:00, ?step/s][33;1m2026-06-17 13:42:41,629 - mani_skill  - WARNING - mani_skill is not installed with git.[0m
+  0%|          | 0/60 [00:00<?, ?step/s]  0%|          | 0/60 [00:00<?, ?step/s][33;1m2026-06-17 13:42:41,640 - mani_skill  - WARNING - Reset kwargs includes options, which are not supported in GPU sim replay and will be ignored.[0m
+  2%|▏         | 1/60 [00:02<02:35,  2.64s/step]  3%|▎         | 2/60 [00:05<02:36,  2.69s/step]  5%|▌         | 3/60 [00:08<02:35,  2.72s/step]  7%|▋         | 4/60 [00:10<02:33,  2.74s/step]  8%|▊         | 5/60 [00:13<02:33,  2.79s/step] 10%|█         | 6/60 [00:16<02:32,  2.82s/step] 12%|█▏        | 7/60 [00:19<02:32,  2.87s/step] 13%|█▎        | 8/60 [00:23<02:40,  3.09s/step] 15%|█▌        | 9/60 [00:26<02:43,  3.20s/step] 17%|█▋        | 10/60 [00:31<03:08,  3.78s/step] 18%|█▊        | 11/60 [00:36<03:24,  4.17s/step] 20%|██        | 12/60 [00:42<03:39,  4.56s/step] 22%|██▏       | 13/60 [00:47<03:47,  4.85s/step] 23%|██▎       | 14/60 [00:53<03:54,  5.09s/step] 25%|██▌       | 15/60 [00:58<03:55,  5.23s/step] 27%|██▋       | 16/60 [01:04<03:50,  5.24s/step] 28%|██▊       | 17/60 [01:09<03:47,  5.30s/step] 30%|███       | 18/60 [01:14<03:41,  5.28s/step] 32%|███▏      | 19/60 [01:20<03:38,  5.32s/step] 33%|███▎      | 20/60 [01:25<03:31,  5.28s/step] 35%|███▌      | 21/60 [01:31<03:30,  5.39s/step] 37%|███▋      | 22/60 [01:36<03:20,  5.29s/step] 38%|███▊      | 23/60 [01:41<03:17,  5.32s/step] 40%|████      | 24/60 [01:46<03:11,  5.32s/step] 42%|████▏     | 25/60 [01:52<03:07,  5.36s/step] 43%|████▎     | 26/60 [01:57<03:00,  5.31s/step] 45%|████▌     | 27/60 [02:03<03:05,  5.63s/step] 47%|████▋     | 28/60 [02:12<03:25,  6.42s/step] 48%|████▊     | 29/60 [02:21<03:44,  7.23s/step] 50%|█████     | 30/60 [02:30<03:51,  7.73s/step] 52%|█████▏    | 31/60 [02:38<03:53,  8.04s/step] 53%|█████▎    | 32/60 [02:47<03:52,  8.29s/step] 55%|█████▌    | 33/60 [02:57<03:54,  8.67s/step] 57%|█████▋    | 34/60 [03:06<03:45,  8.66s/step] 58%|█████▊    | 35/60 [03:15<03:44,  8.98s/step] 60%|██████    | 36/60 [03:24<03:35,  8.99s/step] 62%|██████▏   | 37/60 [03:33<03:26,  8.96s/step] 63%|██████▎   | 38/60 [03:42<03:16,  8.93s/step] 65%|██████▌   | 39/60 [03:51<03:10,  9.06s/step] 67%|██████▋   | 40/60 [04:00<03:00,  9.01s/step] 68%|██████▊   | 41/60 [04:10<02:52,  9.10s/step] 70%|███████   | 42/60 [04:19<02:45,  9.19s/step] 72%|███████▏  | 43/60 [04:28<02:35,  9.15s/step] 73%|███████▎  | 44/60 [04:37<02:25,  9.11s/step] 75%|███████▌  | 45/60 [04:46<02:17,  9.14s/step] 77%|███████▋  | 46/60 [04:55<02:07,  9.10s/step] 78%|███████▊  | 47/60 [05:05<01:59,  9.23s/step] 80%|████████  | 48/60 [05:14<01:49,  9.09s/step] 82%|████████▏ | 49/60 [05:23<01:40,  9.15s/step] 83%|████████▎ | 50/60 [05:33<01:35,  9.52s/step] 85%|████████▌ | 51/60 [05:42<01:24,  9.42s/step] 87%|████████▋ | 52/60 [05:53<01:18,  9.86s/step] 88%|████████▊ | 53/60 [06:02<01:05,  9.41s/step] 90%|█████████ | 54/60 [06:11<00:56,  9.40s/step] 92%|█████████▏| 55/60 [06:20<00:46,  9.31s/step] 93%|█████████▎| 56/60 [06:29<00:36,  9.21s/step] 95%|█████████▌| 57/60 [06:39<00:28,  9.34s/step] 97%|█████████▋| 58/60 [06:48<00:18,  9.34s/step] 98%|█████████▊| 59/60 [06:57<00:09,  9.28s/step]100%|██████████| 60/60 [07:08<00:00,  9.74s/step]100%|██████████| 60/60 [07:08<00:00,  7.15s/step]
+  0%|          | 0/60 [07:10<?, ?step/s]
+Replayed 60 episodes, 60/60=100.00% demos saved
+[replay] done (rgb); see /home/david/code/marso_hackathon/il/demos/easy

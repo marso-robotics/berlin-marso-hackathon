@@ -62,15 +62,31 @@ def _at(tcp, target, tol=TOL):
     return float(((tcp - target) ** 2).sum() ** 0.5) < tol
 
 
-def scripted_episode(env, max_steps=300):
+def scripted_episode(env, max_steps=300, seed=42, action_noise=0.0, rng=None,
+                     stop_on_success=True, home_hold=12):
     """Run one scripted episode on a single-env WarehouseSortEnv wrapper.
 
     Returns a list of (obs, action, reward, info) tuples.
+
+    ``seed`` is forwarded to ``env.reset`` so the demo generator can vary episodes.
+    ``action_noise`` (std, in action units) injects Gaussian noise into each action before
+    stepping. The policy is closed-loop (it reads the live tcp/parcel poses every step), so it
+    self-corrects from the perturbed states — this spreads the demo state distribution and is the
+    standard trick for fighting behaviour-cloning covariate shift. The env stays easy/fixed; only
+    the visited states differ. ``rng`` (a numpy Generator) makes the noise reproducible per seed.
+
+    ``stop_on_success``: if True (default, used for quick video demos) the episode ends the
+    moment the env reports success. For DATA GENERATION pass False so the policy plays out a
+    clean finish after the last parcel — release, lift off, and return toward the home pose —
+    and holds there for ``home_hold`` steps before ending. Every demo then has an unambiguous
+    terminal state (arm parked at home, gripper open), which is what the learner imitates.
     """
     import numpy as np
 
+    if rng is None:
+        rng = np.random.default_rng(seed)
     base = env.unwrapped
-    obs, _ = env.reset(seed=42)
+    obs, _ = env.reset(seed=seed)
     device = "cpu"
 
     phase       = OPEN
@@ -79,6 +95,8 @@ def scripted_episode(env, max_steps=300):
     grasp_tries = 0       # grasp attempts on the current parcel (give up after a few)
     n_parcels   = base.num_parcels
     history     = []
+    home_xyz    = base.agent.tcp_pose.p[0].cpu().numpy().copy()  # start TCP = "home" to return to
+    done_hold   = 0       # steps parked at home after the last parcel (clean-finish counter)
 
     def goto(p):
         nonlocal phase, phase_steps
@@ -102,7 +120,16 @@ def scripted_episode(env, max_steps=300):
         tags = base.parcel_tags[0].cpu().long().tolist()  # [tag_p0, tag_p1, ...]
 
         if parcel_idx >= n_parcels:
-            action = _act([0, 0, 0], 1.0)
+            # CLEAN FINISH: all parcels placed. Open the gripper, lift off, and drive the TCP
+            # back to the start ("home") pose at carry height, then hold so every demo ends in
+            # an unambiguous parked state. (For quick video runs stop_on_success short-circuits
+            # this; for data gen it plays out and the hold gives a clear terminal frame.)
+            home_p = np.array([home_xyz[0], home_xyz[1], CARRY])
+            if not _at(tcp, home_p, tol=0.03):
+                action = _move(tcp, home_p, gripper=1.0, speed=SPEED)
+            else:
+                action = _act([0, 0, 0], 1.0)
+                done_hold += 1
         else:
             p_pos = base.parcels[parcel_idx].pose.p[0].cpu().numpy()
             tag   = tags[parcel_idx]
@@ -176,6 +203,13 @@ def scripted_episode(env, max_steps=300):
                 if phase_steps >= 10:
                     advance_parcel()
 
+        if action_noise > 0.0:
+            noise = torch.as_tensor(
+                rng.normal(0.0, action_noise, size=action.shape), dtype=action.dtype
+            )
+            # keep the gripper command (dim 3) crisp; only perturb the xyz deltas (dims 0-2)
+            noise[:, 3] = 0.0
+            action = (action + noise).clamp(-1.0, 1.0)
         obs, reward, term, trunc, info = env.step(action.to(device))
         history.append((obs, action, float(reward), info))
 
@@ -188,7 +222,10 @@ def scripted_episode(env, max_steps=300):
             print(f"  step {step:3d}  phase={PHASE_NAMES[phase] if parcel_idx < n_parcels else 'DONE':8s}"
                   f"  parcel={parcel_idx}  tcp={tcp.round(3)}  sorted={sc_val}", flush=True)
 
-        if term or trunc:
+        if trunc or (term and stop_on_success):
+            break
+        # data-gen path: end shortly after the arm has parked at home (clean, bounded finish)
+        if not stop_on_success and parcel_idx >= n_parcels and done_hold >= home_hold:
             break
 
     return history

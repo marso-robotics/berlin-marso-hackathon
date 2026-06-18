@@ -18,3 +18,9 @@ __pycache__/
 # editor / local settings
 .vscode/
 .claude/
+
+# IL track generated artifacts (datasets + videos; checkpoints already covered by *.pt)
+il/demos/
+il/videos/
+*.h5
+*.mp4

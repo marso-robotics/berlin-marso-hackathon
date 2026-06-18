@@ -28,7 +28,15 @@ from mani_skill.utils.structs.actor import Actor
 from mani_skill.utils.structs.pose import Pose
 from transforms3d.euler import euler2quat
 
-from warehouse_sort.reward import example_dense_reward, example_dense_max
+from warehouse_sort import reward as _reward
+from warehouse_sort import staged_reward as _staged_reward
+
+# dense reward implementations selectable via the `reward_impl` config field. Both are stateless
+# state-based example rewards; "staged" adds an explicit gripper-open (release) reward rung.
+REWARD_IMPLS = {
+    "example_dense": (_reward.example_dense_reward, _reward.example_dense_max),
+    "staged": (_staged_reward.example_dense_reward, _staged_reward.example_dense_max),
+}
 
 # ---------------------------------------------------------------------------- #
 # Colour identities. Index 0 = red, 1 = blue. These are the *base* RGB identities;
@@ -92,10 +100,12 @@ class WarehouseSortEnv(BaseEnv):
         fixed_poses: bool = True,
         randomization: Optional[dict] = None,
         reward_option: str = "sparse",     # "sparse" | "example_dense" (selects reward source)
+        reward_impl: str = "example_dense", # which dense reward: "example_dense" | "staged"
         camera_width: int = 128,
         camera_height: int = 128,
         robot_init_qpos_noise: float = 0.02,
-        robot_uids: str = "panda_wristcam",
+        robot_uids: Optional[str] = None,
+        obs_camera: str = "scene",          # "scene" (default, third-person view) | "wrist"
         max_episode_steps: int = 100,
         **kwargs,
     ):
@@ -106,6 +116,9 @@ class WarehouseSortEnv(BaseEnv):
         self.num_parcels = int(num_parcels)
         self.fixed_poses = bool(fixed_poses)
         self.reward_option = reward_option
+        assert reward_impl in REWARD_IMPLS, f"unknown reward_impl '{reward_impl}'"
+        self.reward_impl = reward_impl
+        self._dense_reward_fn, self._dense_reward_max = REWARD_IMPLS[reward_impl]
         self.camera_width = int(camera_width)
         self.camera_height = int(camera_height)
         self.robot_init_qpos_noise = robot_init_qpos_noise
@@ -113,10 +126,19 @@ class WarehouseSortEnv(BaseEnv):
         # tag assignment: balanced split across the 2 colours (>=1 of each).
         tags = [i % 2 for i in range(self.num_parcels)]
         self._parcel_tag_ids = tags
-        # Override the Panda wrist camera ("hand_camera") resolution from config.
+        # Camera feeding the rgb obs. "wrist": the Panda wrist camera (default, BUILD_SPEC). "scene":
+        # a fixed third-person camera (the render view) so the whole table/bins/robot stay visible
+        # and a grasped parcel never occludes the view. In scene mode we use the plain "panda" robot
+        # so the wrist camera is not also added to the observation.
+        assert obs_camera in ("wrist", "scene"), f"obs_camera must be wrist|scene, got {obs_camera}"
+        self.obs_camera = obs_camera
+        if robot_uids is None:
+            robot_uids = "panda" if obs_camera == "scene" else "panda_wristcam"
+        # Override the obs camera's resolution from config.
+        cam_name = "scene_camera" if obs_camera == "scene" else "hand_camera"
         sensor_configs = kwargs.pop("sensor_configs", {}) or {}
         sensor_configs = {
-            **{"hand_camera": dict(width=self.camera_width, height=self.camera_height)},
+            **{cam_name: dict(width=self.camera_width, height=self.camera_height)},
             **sensor_configs,
         }
         super().__init__(*args, robot_uids=robot_uids, sensor_configs=sensor_configs, **kwargs)
@@ -149,9 +171,13 @@ class WarehouseSortEnv(BaseEnv):
     # ----------------------------- cameras ------------------------------------- #
     @property
     def _default_sensor_configs(self):
-        # Panda wrist camera ("hand_camera") is provided by the panda_wristcam robot.
-        # A top-down sensor is added too so the scene is visually verifiable, but the
-        # documented rgb obs uses the wrist camera (see _get_obs / README).
+        # "wrist" mode: the only sensor is the panda_wristcam's "hand_camera" (added by the robot).
+        # "scene" mode: add a fixed third-person "scene_camera" at the render-view pose so the rgb
+        # obs always shows the whole workspace (robot + parcels + bins), unoccluded by a held box.
+        if self.obs_camera == "scene":
+            pose = sapien_utils.look_at(eye=[0.5, 0.0, 0.7], target=[0.0, 0.0, 0.05])
+            return [CameraConfig("scene_camera", pose, self.camera_width, self.camera_height,
+                                 1.0, 0.01, 100)]
         return []
 
     @property
@@ -166,10 +192,11 @@ class WarehouseSortEnv(BaseEnv):
         render modes are unchanged."""
         if self.render_mode == "all":
             render = self.render_rgb_array()                       # (N, H, H, 3) uint8
-            wrist = self.get_sensor_images()["hand_camera"]["rgb"]  # (N, h, w, 3) uint8
+            cam = "scene_camera" if self.obs_camera == "scene" else "hand_camera"
+            sensor = self.get_sensor_images()[cam]["rgb"]          # (N, h, w, 3) uint8
             h = render.shape[1]
             w = torch.nn.functional.interpolate(
-                wrist.permute(0, 3, 1, 2).float(), size=(h, h), mode="nearest"
+                sensor.permute(0, 3, 1, 2).float(), size=(h, h), mode="nearest"
             ).permute(0, 2, 3, 1).to(render.dtype)
             return torch.cat([render, w], dim=2)                   # (N, H, 2H, 3)
         return super().render()
@@ -364,11 +391,25 @@ class WarehouseSortEnv(BaseEnv):
                 quat[:, 3] = torch.sin(yaw / 2)
                 parcel.set_pose(Pose.create_from_pq(pos, quat))
 
-            # episode bookkeeping for sparse reward + speed metric
-            self._prev_sorted = torch.zeros(self.num_envs, device=self.device)
-            self._steps_to_complete = torch.full(
-                (self.num_envs,), self.max_episode_steps, dtype=torch.long, device=self.device
-            )
+            # episode bookkeeping for sparse reward + speed metric. Reset ONLY the sub-envs
+            # being (re)initialised (env_idx) so partial resets — ManiSkill auto-resets each
+            # env the moment it succeeds during PPO training — don't clobber the envs that are
+            # still mid-episode.
+            N, P = self.num_envs, self.num_parcels
+            if not hasattr(self, "_prev_sorted") or self._prev_sorted.shape[0] != N:
+                self._prev_sorted = torch.zeros(N, device=self.device)
+                self._steps_to_complete = torch.full(
+                    (N,), self.max_episode_steps, dtype=torch.long, device=self.device
+                )
+                # latched placement: once a parcel is correctly placed AND released it stays
+                # "done" for the rest of the episode, so neither the score nor the reward ever
+                # credits the arm again for hovering at that bin (it must move to the next parcel).
+                self._placed_correct = torch.zeros(N, P, dtype=torch.bool, device=self.device)
+                self._placed_other = torch.zeros(N, P, dtype=torch.bool, device=self.device)
+            self._prev_sorted[env_idx] = 0.0
+            self._steps_to_complete[env_idx] = self.max_episode_steps
+            self._placed_correct[env_idx] = False
+            self._placed_other[env_idx] = False
 
     # ------------------------------ observations ------------------------------- #
     def _bin_positions(self):
@@ -397,18 +438,16 @@ class WarehouseSortEnv(BaseEnv):
     # ------------------------------ evaluate ----------------------------------- #
     def evaluate(self):
         # grasp detection reused from PickCube (per-parcel)
-        is_grasped = torch.stack(
+        grasp = torch.stack(
             [self.agent.is_grasping(p) for p in self.parcels], dim=1
-        ).any(dim=1)
+        )  # (N, P)
+        is_grasped = grasp.any(dim=1)
 
         bin_pos = self._bin_positions()  # (N, 2, 3)
         bx, by = self.bin_half
         # parcel must be settled low inside the bin footprint (not carried high above it)
         rim_z = 0.06
 
-        correct = torch.zeros(self.num_envs, device=self.device)
-        mis = torch.zeros(self.num_envs, device=self.device)
-        placed = torch.zeros(self.num_envs, device=self.device)
         for j, parcel in enumerate(self.parcels):
             p = parcel.pose.p  # (N, 3)
             tag = self.parcel_tags[:, j]  # (N,)
@@ -423,11 +462,16 @@ class WarehouseSortEnv(BaseEnv):
                     & (p[:, 2] > 0.0)
                 )
 
-            in_correct = inside(correct_bin)
-            in_other = inside(other_bin)
-            correct += in_correct.float()
-            mis += in_other.float()
-            placed += (in_correct | in_other).float()
+            # "settled" = inside the bin footprint AND released (not still in the gripper), so a
+            # box held low inside a bin does not count until the arm lets go (matches reward.py).
+            released = ~grasp[:, j]
+            self._placed_correct[:, j] |= inside(correct_bin) & released
+            self._placed_other[:, j] |= inside(other_bin) & released & ~self._placed_correct[:, j]
+
+        # latched counts: a correctly placed+released parcel stays scored for the episode.
+        correct = self._placed_correct.float().sum(dim=1)
+        mis = self._placed_other.float().sum(dim=1)
+        placed = (self._placed_correct | self._placed_other).float().sum(dim=1)
 
         all_placed = placed >= self.num_parcels
         # speed: first step at which all parcels are placed (per env)
@@ -454,8 +498,9 @@ class WarehouseSortEnv(BaseEnv):
         return delta
 
     def compute_dense_reward(self, obs: Any, action: torch.Tensor, info: dict):
-        # EXAMPLE DENSE REWARD lives in reward.py; the env just delegates to it.
-        return example_dense_reward(self, obs, action, info)
+        # EXAMPLE DENSE REWARD lives in reward.py / staged_reward.py; the env delegates to the
+        # implementation selected by `reward_impl` (see REWARD_IMPLS).
+        return self._dense_reward_fn(self, obs, action, info)
 
     def compute_normalized_dense_reward(self, obs: Any, action: torch.Tensor, info: dict):
-        return self.compute_dense_reward(obs, action, info) / example_dense_max(self.num_parcels)
+        return self.compute_dense_reward(obs, action, info) / self._dense_reward_max(self.num_parcels)

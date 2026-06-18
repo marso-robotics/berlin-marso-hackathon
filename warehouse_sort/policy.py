@@ -67,17 +67,23 @@ class Agent(nn.Module):
             self.encoder = None
             feat_dim = sample_obs.shape[1]
 
+        # Architecture matches ManiSkill's PPO baseline (examples/baselines/ppo/ppo.py):
+        # a 3-hidden-layer (256) Tanh MLP head for both critic and actor, with the actor's
+        # final layer scaled down (std=0.01*sqrt(2)) and logstd initialised to -0.5. For rgb
+        # the only difference is `feat_dim` (CNN features + proprio) feeding the same heads.
         self.critic = nn.Sequential(
             layer_init(nn.Linear(feat_dim, 256)), nn.Tanh(),
             layer_init(nn.Linear(256, 256)), nn.Tanh(),
-            layer_init(nn.Linear(256, 1), std=1.0),
+            layer_init(nn.Linear(256, 256)), nn.Tanh(),
+            layer_init(nn.Linear(256, 1)),
         )
         self.actor_mean = nn.Sequential(
             layer_init(nn.Linear(feat_dim, 256)), nn.Tanh(),
             layer_init(nn.Linear(256, 256)), nn.Tanh(),
-            layer_init(nn.Linear(256, action_dim), std=0.01),
+            layer_init(nn.Linear(256, 256)), nn.Tanh(),
+            layer_init(nn.Linear(256, action_dim), std=0.01 * np.sqrt(2)),
         )
-        self.actor_logstd = nn.Parameter(torch.zeros(1, action_dim) - 0.5)
+        self.actor_logstd = nn.Parameter(torch.ones(1, action_dim) * -0.5)
 
     def _features(self, obs):
         if self.is_dict:
@@ -91,9 +97,7 @@ class Agent(nn.Module):
     def get_action_and_value(self, obs, action=None):
         feat = self._features(obs)
         mean = self.actor_mean(feat)
-        # floor the std so exploration (esp. of the gripper open/close) doesn't collapse early
-        logstd = self.actor_logstd.clamp(min=-1.6)
-        std = torch.exp(logstd.expand_as(mean))
+        std = torch.exp(self.actor_logstd.expand_as(mean))
         dist = Normal(mean, std)
         if action is None:
             action = dist.sample()

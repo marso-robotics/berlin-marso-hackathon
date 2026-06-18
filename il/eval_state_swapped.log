@@ -1,0 +1,100 @@
+======================================================================
+[eval] git=dcf335e863c1b11a56ba7ebf4ea859bd849e8515
+----------------------------------------------------------------------
+difficulty:
+  name: easy
+  num_parcels: 2
+  fixed_poses: true
+  obs_mode: state
+randomization:
+  parcel_pose:
+    xy_jitter:
+    - 0.0
+    - 0.0
+    yaw_jitter:
+    - 0.0
+    - 0.0
+  bin_position:
+    side_swap_prob: 0.0
+    xy_jitter:
+    - 0.0
+    - 0.0
+  lighting:
+    intensity:
+    - 1.0
+    - 1.0
+    direction_jitter:
+    - 0.0
+    - 0.0
+  background:
+    table_colors:
+    - - 0.3
+      - 0.3
+      - 0.32
+    floor_colors:
+    - - 0.2
+      - 0.2
+      - 0.22
+  appearance:
+    cardboard_shade:
+    - 0.0
+    - 0.0
+    tag_shade:
+    - 0.0
+    - 0.0
+  clutter:
+    enabled: false
+    contact_ok: false
+seed: 0
+torch_deterministic: true
+num_envs: 16
+total_steps: 10000000
+device: cuda
+evaluate: false
+env_id: WarehouseSort-v1
+eval_freq: 15
+num_eval_envs: 8
+num_eval_steps: 200
+capture_video: true
+reward: sparse
+reward_impl: example_dense
+control_mode: pd_ee_delta_pos
+max_episode_steps: 200
+obs_mode: state
+camera:
+  width: 128
+  height: 128
+obs_camera: scene
+checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_v2/checkpoints/best_eval_success_at_end.pt
+eval_config: conf/eval/easy_swapped.yaml
+policy: warehouse_sort.il_policy:load_dp
+ppo:
+  lr: 0.0003
+  num_steps: 50
+  update_epochs: 8
+  num_minibatches: 32
+  gamma: 0.8
+  gae_lambda: 0.9
+  clip_coef: 0.2
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  target_kl: 0.1
+  norm_adv: true
+  clip_vloss: false
+  finite_horizon_gae: false
+  anneal_lr: false
+  reward_scale: 1.0
+======================================================================
+number of parameters: 4.48M
+--------------------------------------------------
+EVAL  difficulty=easy  n_episodes=64  obs_mode=state
+  sort_accuracy:        0.000        # PRIMARY
+  mean_sorted/episode:  0.00 / 2
+  all_placed_rate:      0.000
+  mis_sort_rate:        0.000        # diagnostic
+--------------------------------------------------
+[eval] saved rollout video (render + sensor views) -> /home/david/code/marso_hackathon/outputs/2026-06-17/16-45-30/videos
+
+
+
