@@ -1,5 +1,7 @@
 # WarehouseSort — Color-Matching Pick-and-Place Challenge
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marso-robotics/berlin-marso-hackathon/blob/main/starter.ipynb)
+
 A robotics imitation-learning challenge built on **[ManiSkill 3](https://maniskill.ai)**.
 
 A Franka Panda robot must sort parcels by color: pick each parcel from the inbound zone and
@@ -38,11 +40,30 @@ slightly wider position randomization — build for generalization, not for the 
 
 ## Scoring
 
-**Sort accuracy** — fraction of parcels in the correct-color bin at episode end.
+### Primary metric — Sort accuracy
+
+**Sort accuracy** is the fraction of parcels placed in the correct-color bin by episode end.
+It is the **only metric that determines your ranking**.
 
 The check is **geometric and deterministic**: a parcel is correctly sorted when its body
 rests inside the footprint of the matching-color bin and is settled low (below the rim).
-The judge reports per-level accuracy plus a **weighted average** across levels.
+
+### Final score — weighted average across all three levels
+
+| level | weight |
+|-------|--------|
+| easy | 0.2 |
+| medium | 0.3 |
+| hard | 0.5 |
+
+```
+final_score = 0.2 × sort_accuracy_easy
+            + 0.3 × sort_accuracy_medium
+            + 0.5 × sort_accuracy_hard
+```
+
+Higher weights on harder levels reward generalisation. The tiebreaker (hard level only) is
+`mean_steps` — fewer steps for the same accuracy is better.
 
 ---
 
@@ -66,7 +87,7 @@ pixi run python eval.py difficulty=easy obs_mode=state \
     eval_config=conf/eval/default.yaml
 ```
 
-For a guided walkthrough, open **[starter.ipynb](starter.ipynb)** (works in Google Colab — select a GPU runtime).
+For a guided walkthrough, open **[starter.ipynb](starter.ipynb)** — or click the badge at the top of this page to launch it directly in Google Colab (select a GPU runtime).
 
 ---
 
@@ -115,18 +136,23 @@ bonus track, designing a shaped reward is your job.
 
 ## How judging works
 
-The judges run your checkpoint against held-out configs via the same `eval.py` interface:
+The judges run `judge/run_judge.py`, which evaluates your checkpoint on all three levels and
+reports a weighted aggregate:
 
 ```bash
-python eval.py difficulty=<level> checkpoint=<your_ckpt> \
-    policy=warehouse_sort.il_policy:load_dp \
-    eval_config=judge/heldout_<level>.yaml
+python judge/run_judge.py \
+    checkpoint=<your_ckpt> \
+    policy=warehouse_sort.il_policy:load_dp
 ```
 
+Internally it calls the same `eval.py` interface per level with held-out configs
+(`judge/heldout_easy.yaml`, `judge/heldout_medium.yaml`, `judge/heldout_hard.yaml`).
+
 The held-out configs use the same difficulty levels, same colors, and same success check —
-only the seeds and position randomization ranges differ. The observation mode is locked to
-the difficulty default (state for all levels on the main track), so you cannot use privileged
-state info at eval. Your checkpoint must load and run with no code changes.
+only the seeds and position randomization ranges differ (slightly wider than training).
+The observation mode is locked to the difficulty default (state for all three main-track
+levels), so you cannot pass privileged info at eval. Your checkpoint must load and run with
+no code changes.
 
 ---
 

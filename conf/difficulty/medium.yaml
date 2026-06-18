@@ -1,12 +1,12 @@
 # @package _global_
-# MEDIUM — the first real (vision) level. Wrist-camera RGB, parcels in randomised
-# positions/orientations within the inbound zone (tag always top-visible). No appearance
-# randomisation; bins fixed. Only parcel_pose is populated.
+# MEDIUM — state IL level. 4 parcels in randomised positions/orientations within the inbound
+# zone (tag always top-visible). No appearance randomisation; bins fixed.
+# obs_mode: state (main track default). Use obs_mode=rgb override for the image track.
 difficulty:
   name: medium
   num_parcels: 4
   fixed_poses: false
-  obs_mode: rgb
+  obs_mode: state
 
 randomization:
   parcel_pose:
