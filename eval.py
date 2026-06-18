@@ -55,7 +55,7 @@ def main(cfg):
                   hard=(cfg.difficulty.name == "hard"))
     env.close()
 
-    # every eval run also saves a video (RecordEpisode, all views: render + wrist sensor cam)
+    # every eval run also saves a video (RecordEpisode, all views: render + scene sensor cam)
     out_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     vid_dir = os.path.join(out_dir, "videos")
     n_vid = min(4, n_envs)

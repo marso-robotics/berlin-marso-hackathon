@@ -88,7 +88,7 @@ class Args:
     obs_mode: str = "rgb+depth"
     """The observation mode to use for the environment, which dictates what visual inputs to pass to the model. Can be "rgb", "depth", or "rgb+depth"."""
     obs_camera: str = "scene"
-    """WarehouseSort camera feeding the rgb obs: "wrist" or "scene" (fixed third-person view)."""
+    """Accepted for demo-replay compat; WarehouseSort only uses the fixed third-person scene camera."""
     visual_encoder: str = "plain_conv"
     """RGB encoder: "plain_conv" (vendored) or "resnet18" (ResNet18 + SpatialSoftmax keypoints)."""
     num_kp: int = 32
@@ -581,7 +581,7 @@ if __name__ == "__main__":
                 writer.add_scalar(f"eval/{k}", eval_metrics[k], iteration)
                 print(f"{k}: {eval_metrics[k]:.4f}")
 
-            save_on_best_metrics = ["success_once", "success_at_end"]
+            save_on_best_metrics = ["sort_accuracy", "success_once", "success_at_end"]
             for k in save_on_best_metrics:
                 if k in eval_metrics and eval_metrics[k] > best_eval_metrics[k]:
                     best_eval_metrics[k] = eval_metrics[k]

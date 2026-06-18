@@ -35,7 +35,7 @@ def main(cfg):
     print_metrics("TEST", cfg.difficulty.name, cfg.obs_mode, m, hard=(cfg.difficulty.name == "hard"))
     env.close()
 
-    # also save a rollout video (RecordEpisode, render + wrist views side by side)
+    # also save a rollout video (RecordEpisode, render + scene views side by side)
     out_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     vid_dir = os.path.join(out_dir, "videos")
     record_eval_video(cfg, cfg.obs_mode, cfg.randomization, agent, device, vid_dir,

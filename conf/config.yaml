@@ -17,7 +17,7 @@ camera:
   width: 128
   height: 128
 
-# which camera feeds the rgb obs: "scene" (default — fixed third-person) | "wrist"
+# the rgb obs comes from a single fixed third-person "scene" camera (the only image input)
 obs_camera: scene
 
 # checkpoint path (for eval.py / test.py)

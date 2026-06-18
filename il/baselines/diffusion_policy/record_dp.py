@@ -1,4 +1,4 @@
-"""Record ONE clean DP-state rollout video (render + wrist cam) from a trained checkpoint.
+"""Record ONE clean DP-state rollout video (render + scene cam) from a trained checkpoint.
 
 Builds the eval env directly (rather than via make_eval_envs) so we can set
 ``max_steps_per_video`` to the FULL horizon — make_eval_envs derives it from the *registered*

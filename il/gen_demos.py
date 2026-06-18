@@ -2,7 +2,7 @@
 
 This is the IL track's data step. It rolls out the **scripted waypoint policy**
 (``examples/scripted_policy.py`` — we reuse its grasp/place logic, we do not reinvent it)
-across many seeds on the *easy* difficulty (state obs, 2 parcels, fixed poses) and records the
+across many seeds on the chosen difficulty and records the
 episodes in ManiSkill's standard trajectory format (``.h5`` + ``.json``) via the official
 ``RecordEpisode`` wrapper.
 
@@ -10,7 +10,7 @@ After recording the raw demos this script invokes ManiSkill's own ``replay_traje
 to produce the training-ready dataset(s) the learning scripts expect:
 
   * **state**  : ``--obs-mode state``  (the easy-milestone BC input)
-  * **rgb**    : ``--obs-mode rgb``     (wrist-cam, for the RGB ACT/BC milestone)
+  * **rgb**    : ``--obs-mode rgb``     (scene-cam, for the RGB Diffusion Policy)
 
 We follow ManiSkill's pipeline rather than hand-rolling the dataset: record -> replay ->
 train. See ``il/README.md``.
@@ -117,8 +117,7 @@ def replay(h5_path, obs_mode, suffix):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--difficulty", default="easy",
-                    choices=["easy", "medium", "hard", "imgsimple"])
+    ap.add_argument("--difficulty", default="easy", choices=["easy", "medium", "hard"])
     ap.add_argument("--num-episodes", type=int, default=60)
     ap.add_argument("--action-noise", type=float, default=0.03,
                     help="std of Gaussian noise on xyz action dims during collection; spreads "
@@ -131,8 +130,8 @@ def main():
                     help="only record raw demos; skip the replay_trajectory obs conversion")
     ap.add_argument("--obs-modes", nargs="*", default=["state", "rgb"],
                     help="which obs representations to produce via replay_trajectory")
-    ap.add_argument("--obs-camera", default="scene", choices=["scene", "wrist"],
-                    help="camera for the rgb obs: 'scene' = fixed third-person (whole workspace)")
+    ap.add_argument("--obs-camera", default="scene", choices=["scene"],
+                    help="image obs camera (scene = fixed third-person; the only supported camera)")
     ap.add_argument("--return-home", action="store_true",
                     help="after the last placement, return the arm home (clearer videos but adds "
                          "~30 idle frames the learner over-weights). Default off -> sharp demos.")

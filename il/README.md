@@ -88,9 +88,8 @@ is always used; for the image track obs_mode=rgb.
 
 - **Why state DP and not MLP-BC?** A plain MLP behavior cloner collapses here (~0% success)
   due to compounding error. Diffusion Policy's action chunking fixes this.
-- **Why scene camera?** The wrist camera gets occluded once a parcel is grasped — tested,
-  0% success. The fixed scene camera keeps the whole workspace in frame the entire episode
-  and works at any parcel count.
+- **Image input = a single fixed third-person scene camera.** It keeps the whole workspace
+  (robot + parcels + bins) in frame the entire episode and works at any parcel count.
 - ManiSkill 3.0.1 pip wheel does not ship `examples/baselines`, so the DP baseline is
   vendored in `il/baselines/diffusion_policy/`.
 - Set `HDF5_USE_FILE_LOCKING=FALSE` if replay/load races on the just-written `.h5`.

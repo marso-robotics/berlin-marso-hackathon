@@ -103,7 +103,7 @@ def rollout_metrics(env, agent, device, n_episodes, seeds, max_steps, determinis
 def print_metrics(role, difficulty, obs_mode, m, hard=False):
     print("-" * 50)
     print(f"{role}  difficulty={difficulty}  n_episodes={m['n_episodes']}  obs_mode={obs_mode}")
-    print(f"  sort_accuracy:        {m['sort_accuracy']:.3f}        # PRIMARY")
+    print(f"  SORT ACCURACY:        {m['sort_accuracy'] * 100:5.1f} %      # PRIMARY METRIC")
     print(f"  mean_sorted/episode:  {m['mean_sorted']:.2f} / {m['num_parcels']}")
     print(f"  all_placed_rate:      {m['all_placed_rate']:.3f}")
     if hard:
