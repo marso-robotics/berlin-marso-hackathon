@@ -282,6 +282,13 @@ if __name__ == "__main__":
             else:
                 raise Exception('Control mode not found in json')
             assert control_mode == args.control_mode, f"Control mode mismatched. Dataset has control mode {control_mode}, but args has control mode {args.control_mode}"
+    # match the eval env to the demo distribution (num parcels, bins, pose randomisation, etc.)
+    _demo_scene_kwargs = {}
+    if args.demo_path.endswith('.h5') and args.env_id.startswith("WarehouseSort"):
+        _dk = demo_info['env_info']['env_kwargs']
+        for _k in ("num_parcels", "fixed_poses", "randomization", "single_bin", "bin_base_y"):
+            if _k in _dk:
+                _demo_scene_kwargs[_k] = _dk[_k]
     assert args.obs_horizon + args.act_horizon - 1 <= args.pred_horizon
     assert args.obs_horizon >= 1 and args.act_horizon >= 1 and args.pred_horizon >= 1
 
@@ -295,6 +302,7 @@ if __name__ == "__main__":
 
     # env setup
     env_kwargs = dict(control_mode=args.control_mode, reward_mode="sparse", obs_mode="state", render_mode="rgb_array", human_render_camera_configs=dict(shader_pack="default"))
+    env_kwargs.update(_demo_scene_kwargs)   # eval env matches the demos (parcels/bins/randomisation)
     assert args.max_episode_steps != None, "max_episode_steps must be specified as imitation learning algorithms task solve speed is dependent on the data you train on"
     env_kwargs["max_episode_steps"] = args.max_episode_steps
     other_kwargs = dict(obs_horizon=args.obs_horizon)

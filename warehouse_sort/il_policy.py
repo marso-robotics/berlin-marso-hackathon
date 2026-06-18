@@ -175,10 +175,11 @@ class _DPRgbPolicy:
 def load_dp_rgb(checkpoint, sample_obs, action_space, device,
                 obs_horizon=2, act_horizon=8, pred_horizon=16,
                 diffusion_step_embed_dim=64, unet_dims=(64, 128, 256), n_groups=8,
-                num_inference_steps=16):
+                num_inference_steps=16, visual_encoder="resnet18", num_kp=32):
     """Entrypoint for an RGB Diffusion Policy checkpoint (vendored train_rgbd; uses EMA weights).
 
     ``sample_obs`` is the locked rgb obs dict {"rgb": (N,H,W,3) uint8, "state": (N,S) proprio}.
+    ``visual_encoder`` must match training ("resnet18" = ResNet18+SpatialSoftmax, or "plain_conv").
     """
     import types
     import numpy as np
@@ -199,7 +200,7 @@ def load_dp_rgb(checkpoint, sample_obs, action_space, device,
     args = types.SimpleNamespace(
         obs_horizon=obs_horizon, act_horizon=act_horizon, pred_horizon=pred_horizon,
         diffusion_step_embed_dim=diffusion_step_embed_dim, unet_dims=list(unet_dims),
-        n_groups=n_groups,
+        n_groups=n_groups, visual_encoder=visual_encoder, num_kp=num_kp,
     )
     agent = Agent(stub, args)
     ckpt = torch.load(checkpoint, map_location=device, weights_only=False)

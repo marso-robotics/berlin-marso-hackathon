@@ -89,6 +89,14 @@ class Args:
     """The observation mode to use for the environment, which dictates what visual inputs to pass to the model. Can be "rgb", "depth", or "rgb+depth"."""
     obs_camera: str = "scene"
     """WarehouseSort camera feeding the rgb obs: "wrist" or "scene" (fixed third-person view)."""
+    visual_encoder: str = "plain_conv"
+    """RGB encoder: "plain_conv" (vendored) or "resnet18" (ResNet18 + SpatialSoftmax keypoints)."""
+    num_kp: int = 32
+    """SpatialSoftmax keypoints (resnet18 encoder); 2*num_kp coords localise parcels+bins+gripper."""
+    # WarehouseSort scene knobs (so the eval env matches the demos). Defaults = easy.
+    num_parcels: int = 2
+    single_bin: bool = False
+    bin_base_y: float = 0.36
     max_episode_steps: Optional[int] = None
     """Change the environments' max_episode_steps to this value. Sometimes necessary if the demonstrations being imitated are too short. Typically the default
     max episode steps of environments in ManiSkill are tuned lower so reinforcement learning agents can learn faster."""
@@ -271,13 +279,21 @@ class Agent(nn.Module):
             total_visual_channels += env.single_observation_space["depth"].shape[-1]
 
         visual_feature_dim = 256
-        # pool_feature_map=False: flatten the full 8x8 conv feature map instead of global
-        # max-pooling it to 1x1. Global pooling discards WHERE objects are in the image, which
-        # is exactly what a spatial pick-and-place policy needs (gripper/parcel/bin locations) --
-        # with it on, the scene-camera policy can't localise and collapses. Keep the spatial map.
-        self.visual_encoder = PlainConv(
-            in_channels=total_visual_channels, out_dim=visual_feature_dim, pool_feature_map=False
-        )
+        enc = getattr(args, "visual_encoder", "plain_conv")
+        if enc == "resnet18":
+            # ResNet18 + SpatialSoftmax: encodes object/gripper LOCATIONS as keypoint coords
+            # (see lerobot_encoder). Best for spatial pick-and-place.
+            from diffusion_policy.lerobot_encoder import ResNet18SpatialSoftmax
+            self.visual_encoder = ResNet18SpatialSoftmax(
+                in_channels=total_visual_channels, out_dim=visual_feature_dim,
+                num_kp=getattr(args, "num_kp", 32),
+            )
+        else:
+            # pool_feature_map=False: flatten the full 8x8 conv feature map instead of global
+            # max-pooling it to 1x1 (which discards WHERE objects are and makes the policy collapse).
+            self.visual_encoder = PlainConv(
+                in_channels=total_visual_channels, out_dim=visual_feature_dim, pool_feature_map=False
+            )
         self.noise_pred_net = ConditionalUnet1D(
             input_dim=self.act_dim,  # act_horizon is not used (U-Net doesn't care)
             global_cond_dim=self.obs_horizon * (visual_feature_dim + obs_state_dim),
@@ -423,6 +439,16 @@ if __name__ == "__main__":
             assert (
                 control_mode == args.control_mode
             ), f"Control mode mismatched. Dataset has control mode {control_mode}, but args has control mode {args.control_mode}"
+    # Match the eval env to the demo distribution: pull the WarehouseSort scene kwargs straight
+    # from the demo's recorded env_kwargs (num parcels, bins, distance, pose randomisation, camera)
+    # so eval renders exactly what the policy was trained on (no manual flag duplication).
+    _demo_scene_kwargs = {}
+    if args.demo_path.endswith(".h5") and args.env_id.startswith("WarehouseSort"):
+        _dk = demo_info["env_info"]["env_kwargs"]
+        for _k in ("num_parcels", "fixed_poses", "randomization", "single_bin",
+                   "bin_base_y", "obs_camera"):
+            if _k in _dk:
+                _demo_scene_kwargs[_k] = _dk[_k]
     assert args.obs_horizon + args.act_horizon - 1 <= args.pred_horizon
     assert args.obs_horizon >= 1 and args.act_horizon >= 1 and args.pred_horizon >= 1
 
@@ -442,6 +468,10 @@ if __name__ == "__main__":
         render_mode="rgb_array",
         human_render_camera_configs=dict(shader_pack="default")
     )
+    if args.env_id.startswith("WarehouseSort"):   # match the demo scene (num parcels / bins / distance)
+        env_kwargs.update(num_parcels=args.num_parcels, single_bin=args.single_bin,
+                          bin_base_y=args.bin_base_y)
+        env_kwargs.update(_demo_scene_kwargs)      # demo-recorded kwargs win (exact distribution match)
     assert args.max_episode_steps != None, "max_episode_steps must be specified as imitation learning algorithms task solve speed is dependent on the data you train on"
     env_kwargs["max_episode_steps"] = args.max_episode_steps
     other_kwargs = dict(obs_horizon=args.obs_horizon)
@@ -487,7 +517,9 @@ if __name__ == "__main__":
     )
 
     # create temporary env to get original observation space as AsyncVectorEnv (CPU parallelization) doesn't permit that
-    tmp_env = gym.make(args.env_id, **env_kwargs)
+    # (use the SAME sim backend as the eval envs so this throwaway env doesn't spin up a CPU PhysX
+    # system; eval itself runs on args.sim_backend, i.e. GPU here)
+    tmp_env = gym.make(args.env_id, sim_backend=args.sim_backend, **env_kwargs)
     orignal_obs_space = tmp_env.observation_space
     # determine whether the env will return rgb and/or depth data
     include_rgb = tmp_env.unwrapped.obs_mode_struct.visual.rgb
