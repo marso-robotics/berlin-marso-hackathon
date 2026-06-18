@@ -1,0 +1,24 @@
+# @package _global_
+# RGB (scene-cam) Diffusion Policy: image + robot proprioception only (NO privileged state),
+# rgb-only (no depth), ResNet18 + SpatialSoftmax encoder. Fixed image input -> the SAME policy
+# can run across difficulties. --capture-video logs an eval rollout mp4 every eval_freq.
+baseline_dir: diffusion_policy
+script: train_rgbd.py
+demo_kind: rgb
+flags:
+  obs_mode: rgb
+  obs_camera: scene
+  visual_encoder: resnet18
+  num_kp: 32
+  total_iters: 30000
+  batch_size: 128
+  obs_horizon: 2
+  act_horizon: 8
+  pred_horizon: 16
+  num_eval_envs: 4
+  num_eval_episodes: 8
+  eval_freq: 5000
+  log_freq: 1000
+  save_freq: 10000
+  capture_video: true
+  exp_name: warehouse_rgb_dp
