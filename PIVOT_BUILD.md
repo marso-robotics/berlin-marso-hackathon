@@ -1,49 +1,30 @@
-# PIVOT BUILD — WarehouseSort: Color-Matching Pick-and-Place
+# PIVOT BUILD — WarehouseSort: State Imitation-Learning Challenge
 
-Work plan for the pivot. The repo already has a working ManiSkill 3 env, a scripted waypoint
-policy, an IL pipeline (record → replay → DP/BC/ACT), an RL `train.py`, and a hard-only held-out
-judge config. This document captures **only the new work** the pivot requires, organised into four
-work streams. Read alongside `BUILD_SPEC.md` (the original scaffold brief) and `README.md` (the
-updated competitor-facing doc).
+Work plan for the pivot. The repo already has a working ManiSkill 3 env, a scripted waypoint policy,
+an IL pipeline (record → replay → DP/BC/ACT), an RL `train.py`, and a hard-only held-out judge
+config. This document captures **only the new work** the pivot requires. Read alongside
+`BUILD_SPEC.md` (original scaffold brief) and `README.md` (updated competitor-facing doc).
 
-## What changes vs. the current build (the pivot in one paragraph)
+## The pivot in one paragraph
 
-The generalization axis moves from *shade jitter on two fixed colors (red/blue)* to a **broad,
-continuous hue distribution with reserved held-out hues**. Routing is purely relational — "place a
-parcel in the bin of the **same hue**" — so absolute-color memorization fails by construction. Color
-**never enters scoring** (the success check stays geometric: did the parcel end up in the bin that
-was assigned its hue this episode); color lives only in the observation. Difficulty rescales to
-**easy = 2 parcels, medium = 3, hard = 4** with the episode horizon scaling by parcel count. IL
-becomes the recommended track; RL ships **sparse reward only**. Judging runs **all three levels**,
-each on a **held-out-hue** config, and reports a **weighted average plus per-level success and
-task-progress** scores.
+The challenge is an **imitation-learning** problem whose main track is **behavior cloning on the
+privileged `state` observation** — the path that already closes the loop (state Diffusion Policy
+~0.85 on easy). **Images and RL are demoted to an advanced / open track** (known to be hard, not yet
+solved). **Color does not generalize** — the palette is fixed red/blue and color is just the routing
+cue; the existing one-hot tag/bin encoding stays. **Difficulty and generalization scale only with
+position randomization (spawn jitter, bin-side swaps) and the number of parcels to sort** — easy = 2,
+medium = 3, hard = 4, horizon scaling with count. The held-out judge widens position randomization
+and uses unseen seeds (no color/lighting/appearance axes drive the score). Judging runs **all three
+levels**, reports a **weighted average plus per-level success and task-progress**.
 
----
+### Things to undo from the earlier (abandoned) hue pivot
 
-## Cross-cutting prerequisite: hue as a first-class, relational signal
-
-Several streams depend on this, so do it first. Today `warehouse_sort/env.py` hardcodes two base
-colors (`TAG_BASE_COLORS`, `BIN_BASE_COLORS`) and exposes the tag as a 2-way one-hot in `state`.
-
-- [ ] **Per-episode hue sampling.** Sample each episode's tag/bin hues from a configured hue
-  distribution (HSV hue ranges → RGB), one hue per "color slot," shared between a tag and its
-  matching bin so they are identical-hue by construction. Keep 2 color slots per episode (2 bins)
-  for now — difficulty scales by parcel count and randomization, not slot count.
-- [ ] **Train vs. held-out hue ranges in config.** Add a `hue` axis to the randomization schema
-  (e.g. `hue: {train_ranges: [[h_lo, h_hi], ...], saturation: [...], value: [...]}`). Training draws
-  from broad ranges; `judge/*.yaml` draws from **reserved hue bands disjoint from training**.
-- [ ] **State obs must carry raw hue, not a label.** Change `parcel_tag`/`bin_color` in
-  `_get_obs_extra` from one-hot identity to the **actual RGB (or HSV) hue values**. A one-hot label
-  leaks the relation and makes held-out hues meaningless. After this, `state` dim becomes
-  `26 + P*7 + P*3 + 2*3 + 2*3` (hue as 3 floats). Update README's documented layout.
-- [ ] **Scoring stays hue-agnostic.** `evaluate()` already routes by an internal `parcel_tags`
-  color-slot id; keep that. The geometric check (parcel inside the matching-slot bin footprint) is
-  unchanged and remains deterministic — confirm nothing in scoring reads RGB.
-- [ ] **Hue identity preserved across rendering** (lighting/background changes must not push a
-  held-out hue across a training hue — they are different axes; document and sanity-check visually).
-
-Acceptance: render train and held-out episodes side by side; confirm hues differ, bins always match
-their tag's hue, and the geometric success check fires correctly for both.
+- **No hue work.** Keep `TAG_BASE_COLORS`/`BIN_BASE_COLORS` fixed (red/blue) and keep `parcel_tag`/
+  `bin_color` as one-hot in `state` (do **not** switch to raw RGB). State dim stays `26 + P*7 + P*2 +
+  6 + 4` (= 54 for P=2).
+- Difficulty axes for the **state** track are **parcel count + position randomization only**.
+  Lighting/background/appearance are pixel-only and irrelevant to a state policy; they live solely on
+  the advanced image track.
 
 ---
 
@@ -57,20 +38,22 @@ Files: `il/gen_demos.py`, `examples/scripted_policy.py`, `il/_replay.py`.
 
 - [ ] **Randomize pick order per episode.** `scripted_episode` currently walks parcels `0..n-1` in
   index order. Add a seeded shuffle of the visit order (use the episode `rng` already threaded in) so
-  the demo set does not always sort in the same sequence. Vary across **all** levels.
+  the demo set does not always sort in the same sequence. Apply at **all** levels.
 - [ ] **Inject imperfections that never mis-sort.** The policy already has grasp retries
   (`grasp_tries`, gives up after 3 → skips the parcel) and demo-time `action_noise`. Extend so a
   configurable fraction of pick attempts **fail and retry** (slipped/short grasp), and occasionally a
   parcel is **skipped entirely** (failed to pick) — but a parcel is **only ever released over its
-  correct-hue bin**. Add an assertion / post-filter: **drop or reject any recorded episode that
-  produces a mis-sort** (`mis_sort_count > 0`), so the dataset's destination labels stay clean.
-- [ ] **Per-level generation** for easy (2, state + rgb), medium (3, rgb, pose rand), hard (4, rgb,
-  full randomization incl. hue). Horizon scales with parcel count.
-- [ ] **Mixed dataset.** Add a `--mix` mode that interleaves episodes from all three levels into one
-  trajectory file (balanced, shuffled, distinct seed ranges) for training a single difficulty-agnostic
-  policy. Since the rgb scene-cam input shape is fixed across levels, one rgb dataset can span all.
+  correct-color bin**. Add an assertion / post-filter: **drop any recorded episode with
+  `mis_sort_count > 0`**, so destination labels stay clean.
+- [ ] **Per-level generation:** easy (2, fixed), medium (3, randomized poses), hard (4, randomized +
+  clutter, bins swap). Horizon scales with parcel count. State obs (main track); rgb optional for the
+  advanced track.
+- [ ] **Mixed dataset.** Add a `--mix` mode interleaving episodes from all three levels into one
+  trajectory file (balanced, shuffled, distinct seed ranges) to train a single difficulty-agnostic
+  policy. (Note: a flat **state** vector is parcel-count-specific, so a mixed-count state dataset
+  needs a fixed-width encoding or a per-count policy — decide and document; rgb is count-agnostic.)
 - [ ] **Determinism knobs.** Imperfection rates, order-shuffle, and noise are all seeded and
-  config/CLI-driven so dataset generation is reproducible.
+  config/CLI-driven so generation is reproducible.
 
 Acceptance: `pixi run python il/gen_demos.py --difficulty {easy,medium,hard} --mix` produces clean
 `.h5`/`.json` datasets; a verification pass reports **0 mis-sorted episodes**, a non-trivial fraction
@@ -78,49 +61,45 @@ of episodes containing a failed-pick/retry, and varied pick orders across episod
 
 ---
 
-## Stream 2 — Verify easy & medium are solvable from camera; if so, drop `state` entirely
+## Stream 2 — Confirm state IL across all three levels; keep image IL on the advanced track
 
-Goal: decide whether we can make **all levels vision-only** (realistic model input) and remove the
-privileged `state` path, instead of keeping `state` for easy.
+Goal: establish the **state IL main track** end-to-end on easy/medium/hard, and clearly fence images
+off as the advanced/open track (image is hard — do **not** make it the default).
 
-Files: `il/train.py`, `eval.py`, `warehouse_sort/utils.py`, the IL baselines.
+Files: `il/train.py`, `il/conf/method/*.yaml`, `eval.py`, `il/README.md`.
 
-- [ ] **Train RGB (scene-cam) DP on easy and medium** from the Stream-1 datasets and evaluate via
-  `eval.py` on the same-distribution config. Record sort accuracy per level.
-- [ ] **Decision gate.** If easy **and** medium clear a solvability bar from camera alone (target:
-  comfortably > the current state-DP 0.85 baseline, or at minimum clearly solving the task), then:
-  - [ ] Make `obs_mode=rgb` (scene cam) the default for **all** levels, including easy.
-  - [ ] Remove `state` as a competitor-facing obs mode (or demote it to an internal debugging-only
-    flag). Update the obs-mode lock in `eval.py` so judging uses rgb everywhere.
-  - [ ] Update README/`il/README.md`: easy is no longer a "state plumbing" level — it's the smallest
-    vision level.
-- [ ] If easy/medium do **not** clear the bar from camera, keep `state` for easy only and document
-  why (record the measured numbers either way).
+- [ ] **Train state DP on easy, medium, hard** from the Stream-1 datasets and evaluate via `eval.py`
+  on the same-distribution config. Record per-level sort accuracy (this is the main scoreboard).
+- [ ] **`state` is the default obs mode for all three levels.** Confirm the difficulty defaults and
+  the `eval.py` obs-mode lock use `state` for easy/medium/hard.
+- [ ] **Demote image IL + state RL to "advanced / open."** Keep `method=dp_rgb` and `train.py`
+  runnable, but document them as open problems in `README`/`il/README.md`; they are not the main
+  scoreboard.
+- [ ] **Record results** in the `il/README.md` table (state DP per level; image/RL noted as open).
 
-Acceptance: a short report (numbers in `il/README.md` results table) of rgb sort accuracy on easy &
-medium, and a recorded decision (state dropped or retained) with the configs/defaults updated to match.
+Acceptance: state DP trains and evaluates on all three levels via the standard pipeline, numbers
+recorded; image IL and state RL are documented as the advanced track, not the default.
 
 ---
 
 ## Stream 3 — Sparse-reward-only starter (RL is "bring your own reward")
 
-Goal: the shipped starter contains **only the sparse reward**. Defining a dense/shaped reward is the
+Goal: the shipped starter contains **only the sparse reward**. Designing a dense/shaped reward is the
 competitor's job on the advanced RL track.
 
 Files: `warehouse_sort/env.py`, `warehouse_sort/reward.py`, `warehouse_sort/staged_reward.py`,
 `conf/config.yaml`, README.
 
 - [ ] **Remove the example dense rewards from the shipped repo.** Delete (or move out of the
-  competitor archive) `warehouse_sort/reward.py` and `warehouse_sort/staged_reward.py`, the
-  `REWARD_IMPLS` table, and the `reward_impl` / `reward=example_dense` config plumbing in `env.py`
-  and `conf/config.yaml`. Keep `compute_sparse_reward` as the only reward.
-- [ ] **Provide a clearly-marked reward stub** for the RL track: an empty/`NotImplementedError`
+  competitor archive) `warehouse_sort/reward.py`, `warehouse_sort/staged_reward.py`, the
+  `REWARD_IMPLS` table, and the `reward_impl` / `reward=example_dense` plumbing in `env.py` and
+  `conf/config.yaml`. Keep `compute_sparse_reward` as the only reward.
+- [ ] **Provide a clearly-marked reward stub** for the RL track: a `NotImplementedError`
   `compute_dense_reward` hook (or a documented place to drop one) labelled
   `# YOUR REWARD GOES HERE — this is the core of the advanced RL submission.`
-- [ ] **Keep `train.py` runnable on sparse** so the RL loop closes out of the box (slow but
-  functional), exactly as the IL track is runnable out of the box.
-- [ ] Update README's Reward section and `BUILD_SPEC.md` §6 expectations: no example dense reward
-  ships; sparse is the default and the only provided reward.
+- [ ] **Keep `train.py` runnable on sparse** so the RL loop closes out of the box.
+- [ ] Update README's Reward section and `BUILD_SPEC.md` §6: no example dense reward ships; sparse is
+  the default and the only provided reward.
 
 Acceptance: a fresh checkout has no example dense reward; `pixi run python train.py difficulty=easy`
 runs end-to-end on sparse; the RL reward extension point is documented and obvious.
@@ -129,46 +108,46 @@ runs end-to-end on sparse; the RL reward extension point is documented and obvio
 
 ## Stream 4 — Multi-level held-out judge (easy / medium / hard), weighted + per-level success & progress
 
-Goal: one judge entrypoint that runs **all three levels** on **held-out-hue** configs and reports a
-**weighted average** alongside **per-level** scores for both **success** (sort accuracy) and **task
-progress** (partial credit), plus the **seen-hue vs held-out-hue** gap.
+Goal: one judge entrypoint that runs **all three levels** on **held-out layout** configs and reports
+a **weighted average** alongside **per-level** scores for both **success** (sort accuracy) and **task
+progress** (partial credit), plus the **seen-layout vs held-out-layout** gap.
 
 Files: new `judge/heldout_easy.yaml`, `judge/heldout_medium.yaml`, `judge/heldout_hard.yaml`, a new
 `judge/run_judge.py` (or extend `eval.py`), `warehouse_sort/env.py` (`evaluate` → progress metric),
 `warehouse_sort/utils.py` (aggregation/printing), `judge/README.md`.
 
-- [ ] **Per-level held-out configs.** Author `heldout_easy/medium/hard.yaml`, each using **reserved
-  held-out hues** (disjoint from training) and a distinct seed list. Easy/medium widen what their
-  level randomizes; hard widens every axis (as today's `heldout.yaml` does) **plus** held-out hues.
-  Keep the existing `judge/heldout.yaml` as the hard one (rename or alias).
-- [ ] **Task-progress metric.** Add a graded partial-credit signal to `evaluate()` — e.g. per parcel
-  a fraction in `[0,1]` for reached → grasped → carried-to-correct-bin → placed, averaged over
-  parcels. This rewards near-misses so the leaderboard separates "did nothing" from "almost sorted."
-  Must stay deterministic and geometric (no RGB read).
+- [ ] **Per-level held-out configs.** Author `heldout_easy/medium/hard.yaml`, each **widening the
+  position randomization** (larger `parcel_pose.xy_jitter`/`yaw_jitter`, full `bin_position.side_swap_prob`,
+  larger `bin_position.xy_jitter`) relative to training, with a **distinct seed list**. No color/
+  lighting/appearance widening is needed for the state track (it doesn't see pixels). Keep the
+  existing `judge/heldout.yaml` as the hard one (rename/alias) and strip its pixel-only axes from the
+  score-driving set.
+- [ ] **Task-progress metric.** Add a graded partial-credit signal to `evaluate()` — per parcel a
+  fraction in `[0,1]` for reached → grasped → carried-to-correct-bin → placed, averaged over parcels.
+  Separates "did nothing" from "almost sorted." Deterministic and geometric.
 - [ ] **Judge runner across levels.** `judge/run_judge.py` loops easy→medium→hard, runs the same
-  locked-obs-mode `eval.py` rollout per level on its held-out config, and collects per-level
-  `sort_accuracy`, `task_progress`, `mean_steps`, `mis_sort_rate`.
-- [ ] **Weighted aggregate.** Compute a configurable weighted average of per-level sort accuracy
-  (e.g. easy 0.2 / medium 0.3 / hard 0.5 — record the chosen weights) as the headline number, and a
-  weighted task-progress average as a secondary headline.
+  locked-obs-mode `eval.py` rollout per level on its held-out config, collecting `sort_accuracy`,
+  `task_progress`, `mean_steps`, `mis_sort_rate`.
+- [ ] **Weighted aggregate.** Configurable weighted average of per-level sort accuracy (e.g. easy 0.2
+  / medium 0.3 / hard 0.5 — record the weights) as the headline number, plus a weighted task-progress
+  average.
 - [ ] **Seen vs held-out reporting.** For each level also run the visible same-distribution config and
-  report **seen-hue vs held-out-hue** accuracy side by side; the gap is the generalization signal.
-- [ ] **Single summary block.** Print one table: per-level success + progress + speed, the two
-  weighted aggregates, and the seen/held-out gap. Deterministic given the seed lists.
-- [ ] Keep `judge/` gitignored and excluded from the competitor archive (unchanged from today).
+  report **seen-layout vs held-out-layout** accuracy side by side; the gap is the generalization signal.
+- [ ] **Single summary block.** One table: per-level success + progress + speed, the two weighted
+  aggregates, and the seen/held-out gap. Deterministic given the seed lists.
+- [ ] Keep `judge/` gitignored and excluded from the competitor archive (unchanged).
 
 Acceptance: `python judge/run_judge.py checkpoint=<ckpt> policy=<entrypoint>` runs all three levels
-end-to-end on held-out hues, prints per-level success + task-progress, the weighted averages, and the
-seen-vs-held-out gap — reproducibly from the fixed seeds.
+end-to-end on held-out layouts, prints per-level success + task-progress, the weighted averages, and
+the seen-vs-held-out gap — reproducibly from the fixed seeds.
 
 ---
 
 ## Suggested order
 
-1. Cross-cutting hue prerequisite (everything else assumes it).
-2. Stream 3 (sparse-only) — small, decouples the RL track early.
-3. Stream 1 (datasets) — needed to feed Stream 2.
-4. Stream 2 (camera solvability + maybe drop state).
-5. Stream 4 (multi-level judge) — last, validates the whole pipeline.
+1. Stream 3 (sparse-only) — small, decouples the RL track early.
+2. Stream 1 (datasets) — feeds Stream 2.
+3. Stream 2 (state IL across levels) — establishes the main scoreboard.
+4. Stream 4 (multi-level judge) — last, validates the whole pipeline.
 
 Each stream is independently shippable; stop cleanly at any stream boundary if time runs short.
