@@ -286,7 +286,7 @@ if __name__ == "__main__":
     _demo_scene_kwargs = {}
     if args.demo_path.endswith('.h5') and args.env_id.startswith("WarehouseSort"):
         _dk = demo_info['env_info']['env_kwargs']
-        for _k in ("num_parcels", "fixed_poses", "randomization", "single_bin", "bin_base_y"):
+        for _k in ("num_parcels", "fixed_poses", "randomization"):
             if _k in _dk:
                 _demo_scene_kwargs[_k] = _dk[_k]
     assert args.obs_horizon + args.act_horizon - 1 <= args.pred_horizon

@@ -95,8 +95,6 @@ class Args:
     """SpatialSoftmax keypoints (resnet18 encoder); 2*num_kp coords localise parcels+bins+gripper."""
     # WarehouseSort scene knobs (so the eval env matches the demos). Defaults = easy.
     num_parcels: int = 2
-    single_bin: bool = False
-    bin_base_y: float = 0.36
     max_episode_steps: Optional[int] = None
     """Change the environments' max_episode_steps to this value. Sometimes necessary if the demonstrations being imitated are too short. Typically the default
     max episode steps of environments in ManiSkill are tuned lower so reinforcement learning agents can learn faster."""
@@ -445,8 +443,7 @@ if __name__ == "__main__":
     _demo_scene_kwargs = {}
     if args.demo_path.endswith(".h5") and args.env_id.startswith("WarehouseSort"):
         _dk = demo_info["env_info"]["env_kwargs"]
-        for _k in ("num_parcels", "fixed_poses", "randomization", "single_bin",
-                   "bin_base_y", "obs_camera"):
+        for _k in ("num_parcels", "fixed_poses", "randomization", "obs_camera"):
             if _k in _dk:
                 _demo_scene_kwargs[_k] = _dk[_k]
     assert args.obs_horizon + args.act_horizon - 1 <= args.pred_horizon
@@ -468,9 +465,8 @@ if __name__ == "__main__":
         render_mode="rgb_array",
         human_render_camera_configs=dict(shader_pack="default")
     )
-    if args.env_id.startswith("WarehouseSort"):   # match the demo scene (num parcels / bins / distance)
-        env_kwargs.update(num_parcels=args.num_parcels, single_bin=args.single_bin,
-                          bin_base_y=args.bin_base_y)
+    if args.env_id.startswith("WarehouseSort"):   # match the demo scene (num parcels, poses, rand)
+        env_kwargs.update(num_parcels=args.num_parcels)
         env_kwargs.update(_demo_scene_kwargs)      # demo-recorded kwargs win (exact distribution match)
     assert args.max_episode_steps != None, "max_episode_steps must be specified as imitation learning algorithms task solve speed is dependent on the data you train on"
     env_kwargs["max_episode_steps"] = args.max_episode_steps

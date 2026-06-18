@@ -4,14 +4,13 @@ This does NOT reimplement any learning logic. It loads a method config (il/conf/
 converts its `flags` into the vendored baseline script's CLI (underscore keys -> --hyphen-flags;
 booleans -> --flag / --no-flag), and runs that real script with the right demo path + shared args.
 
-  pixi run python il/train.py                              # default method: dp_rgb
-  pixi run python il/train.py method=dp                    # state Diffusion Policy
-  pixi run python il/train.py method=dp_rgb flags.total_iters=8000 flags.eval_freq=4000
-  pixi run python il/train.py method=bc | method=act
+  pixi run python il/train.py                              # default: dp (state DP, recommended)
+  pixi run python il/train.py method=dp_rgb               # RGB DP (template, not yet solving)
+  pixi run python il/train.py method=dp flags.total_iters=8000 flags.eval_freq=4000
 
 Outputs (checkpoints + tensorboard + eval videos) land under
   il/baselines/<baseline_dir>/runs/<flags.exp_name>/
-Evaluate the checkpoint through the project's judge harness (see il/README.md), e.g. load_dp_rgb.
+Evaluate via: pixi run python eval.py ... policy=warehouse_sort.il_policy:load_dp ...
 """
 
 import os

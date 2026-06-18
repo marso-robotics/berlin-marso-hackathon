@@ -1,320 +1,164 @@
-# WarehouseSort — Color-Matching Pick-and-Place
+# WarehouseSort — Color-Matching Pick-and-Place Challenge
 
-An **imitation-learning challenge** built on **ManiSkill 3**. A Franka Panda picks parcels from a
-central inbound zone and places each into the bin whose **color matches the parcel's tag** (red tag →
-red bin, blue tag → blue bin). Bin sides swap between episodes, so the policy must read the tag color,
-not memorize a side.
+A robotics imitation-learning challenge built on **[ManiSkill 3](https://maniskill.ai)**.
 
-The challenge is **generalization to new layouts**: difficulty scales with **how much the parcel
-positions are randomized** and **how many parcels there are to sort**. The held-out judge evaluation
-uses **unseen positions, bin arrangements, and seeds** — same task, same colors, same success check,
-only the layout and seeds differ.
-
-> **This is an IL challenge.** The main track is **behavior cloning from the provided demonstrations
-> on the privileged state vector** — the tractable path that already closes the loop. Learning from
-> images, and learning from reward (RL), are the **advanced / open** track: known to be hard, and not
-> yet solved on this task.
-
----
-
-## The task
-
-- A Franka Panda arm with a parallel gripper is mounted at a tabletop workstation.
-- **Parcels** look like brown warehouse cardboard boxes. Each carries a **colored rectangular tag**
-  (red or blue) on its **top face**. The **tag color**, not the box color, tells you where it goes.
-- Parcels spawn in the **inbound zone** in the center of the table, in front of the robot.
-- There are two **color-coded output bins** (a red bin and a blue bin), placed **left and right** of
-  the robot. **Bin sides swap between episodes**, so position is not a reliable cue — color is.
-- **Goal:** place each parcel into the bin whose color matches the parcel's tag.
-- **Score:** fraction of parcels placed in the correct-color bin.
-
-### Color → bin mapping
-
-Red tag → red bin, blue tag → blue bin. The mapping is by **color, not by side**: because the bins'
-left/right positions swap between episodes, you must identify the destination by color, not by a
-memorized location. The color palette is **fixed** (red/blue) — color is the routing cue, not a
-generalization axis.
+A Franka Panda robot must sort parcels by color: pick each parcel from the inbound zone and
+place it in the bin that matches the **colored tag on its top face** (red tag → red bin, blue
+tag → blue bin). At harder levels the bin positions swap between episodes, so the robot must
+read the colors rather than memorize a side.
 
 ---
 
 ## Tracks
 
-### Main track — Imitation Learning on **state** (recommended, this is the challenge)
+| Track | What you submit | Starting point |
+|-------|----------------|----------------|
+| **Main — State IL** | A Diffusion Policy trained on the provided demonstrations, using the privileged state observation | **Works out of the box (~85% on easy)** |
+| Advanced — Image IL | A Diffusion Policy trained on the provided demonstrations, using only camera images | Template provided — **not yet solving the task** |
+| Bonus — RL | Any policy trained from scratch using the sparse `+1` reward | No starter provided; design your own reward |
 
-Learn a policy by **behavior cloning the provided demonstrations** using the privileged low-dim
-**state** observation (parcel poses, tag colors, bin positions and colors, proprioception). This is
-the path that works: a Diffusion Policy on state already closes the loop on the seen distribution.
-**Your job is to make it generalize to unseen layouts** (new positions, bin arrangements) across the
-three difficulty levels.
-
-```bash
-pixi run python il/gen_demos.py --num-episodes 60 --action-noise 0.05   # generate demos
-pixi run python il/train.py method=dp                                    # Diffusion Policy on state
-```
-
-See [`il/README.md`](il/README.md) for the full record → replay → train → eval pipeline.
-
-### Advanced / open track — known to be hard, not yet solved
-
-For teams who want the research frontier. **These are currently known *not* to work well on this
-task** — that's the point. Bonus territory, not the main scoreboard:
-
-- **Imitation learning from images** — RGB instead of state. The wrist camera is occluded by a
-  grasped parcel; a fixed scene camera helps but vision is still open.
-- **Reinforcement learning on state** — no demos. The starter ships a **sparse reward only**;
-  designing a dense/shaped reward that actually converges is your job.
+**Start with the Main track.** The state IL baseline already closes the loop on easy. The
+challenge is to generalize across difficulty levels and to unseen layouts (new positions,
+bin side assignments) that appear in the held-out judge configs.
 
 ---
 
 ## Difficulty levels
 
-Switch with `difficulty=easy|medium|hard`. Difficulty scales with **position randomization** and the
-**number of parcels to sort** — nothing else. The episode horizon scales with parcel count.
+| Level | Parcels | Randomization |
+|-------|---------|--------------|
+| **easy** | 2 | Fixed parcel positions, fixed bin sides |
+| **medium** | 4 | Randomized parcel positions within the inbound zone |
+| **hard** | 6 | Randomized positions + bin sides may swap between episodes |
 
-| Level  | Parcels | Position randomization                                |
-|--------|---------|------------------------------------------------------|
-| easy   | 2       | fixed parcel poses, fixed bin sides                  |
-| medium | 3       | randomized parcel poses; bin sides may swap          |
-| hard   | 4       | randomized parcel poses + light clutter; bins swap   |
-
-At **every** level the **held-out judge config widens the position randomization** (larger spawn
-jitter, full bin-side swaps) and uses **unseen seeds** — that is the generalization test. A
-**secondary speed metric** (steps to completion) is a tiebreaker only.
-
----
-
-## The generalization test
-
-Training layouts come from a configured randomization range (spawn jitter, bin-side swaps). The
-**held-out judge evaluation widens that randomization and uses reserved seeds never seen in
-training** — testing whether your policy handles parcel positions and bin arrangements it has not
-seen. Same task, same colors, same success check — only the layout and seeds differ.
-
-A policy that memorizes a fixed layout fails (positions jitter and bins swap sides). You pass by
-genuinely learning to **read the tag, find the matching-color bin wherever it is, and place there** —
-and having that hold up on layouts you have not seen. We report **seen-layout vs held-out-layout**
-accuracy; the gap is the generalization signal.
-
----
-
-## Observations
-
-Selectable with `obs_mode=state|rgb`. The **main track uses `state`**; `rgb` is the advanced track.
-
-### `state` (main track) — privileged low-dim vector
-- A flat `float32` vector. Layout (P = parcel count), e.g. dim 54 for easy (P=2):
-
-  | slice | field | dims | meaning |
-  |-------|-------|------|---------|
-  | proprio | `qpos`·`qvel`·`tcp_pose`·`is_grasped` | 26 | 9 + 9 + 7 + 1 |
-  | `parcel_pose` | per parcel xyz + quat `wxyz` | `P×7` | parcel `j` at index `j` |
-  | `parcel_tag` | per-parcel tag color one-hot `[red, blue]` | `P×2` | which bin color to match |
-  | `bin_position` | xyz of red bin then blue bin | `2×3` | current left/right positions |
-  | `bin_color` | bin color one-hot (identity) | `2×2` | color id of each bin |
-
-  Total dim `= 26 + P*7 + P*2 + 6 + 4`. Parcel `j`'s correct destination is the bin whose color id
-  matches `parcel_tag[j]`. Ordering is documented in the env.
-
-### `rgb` (advanced track) — scene camera
-- A fixed third-person **scene camera** (`obs_camera=scene`) keeps the whole workspace in frame for
-  the whole episode (a grasped parcel never occludes it) and is parcel-count-agnostic. Image tensor
-  `(num_envs, H, W, 3)`, **uint8, `[0,255]`, channel order `RGB`**, default `H=W=128`. With
-  `FlattenRGBDObservationWrapper(rgb=True, depth=False, state=True)` you get
-  `{"rgb": (N,H,W,3) uint8, "state": (N,26) f32}` where the 26-d state is **proprioception only** (no
-  privileged parcel/bin/color, no depth).
-
-Judging **locks the obs mode to the difficulty default** — `eval.py` ignores any `obs_mode`
-override — so a policy is judged in the mode its track defines.
-
----
-
-## Action space
-
-Fixed `pd_ee_delta_pos` controller, **4 continuous dims, all normalized to `[-1, 1]`**:
-
-| dims | meaning |
-|------|---------|
-| `[0:3]` | end-effector **delta position** (x, y, z), scaled to ±0.1 m per step (gripper held pointing down) |
-| `[3]`   | **gripper**: `+1` = open, `-1` = close |
-
-The action space is fixed — you do not redesign it.
-
----
-
-## Demonstrations
-
-The main track learns from a **provided demonstration dataset** generated by the scripted waypoint
-policy ([`examples/scripted_policy.py`](examples/scripted_policy.py)). The demos:
-
-- cover **all levels** (easy / medium / hard) plus a **mixed** set, recorded in ManiSkill's standard
-  `.h5` + `.json` trajectory format (record → `replay_trajectory` → train);
-- use **randomized pick order** per episode (the dataset does not always sort in the same sequence);
-- include **realistic imperfections** — failed picks and retries — but **never a mis-sort** (a parcel
-  is only ever released over its correct-color bin), so destination labels stay clean.
-
-Regenerate or extend them with `il/gen_demos.py`; see [`il/README.md`](il/README.md).
-
----
-
-## Reward (advanced / RL only)
-
-The starter ships a **sparse** reward only: `+1` when a parcel lands in its correct-color bin, `0`
-otherwise. The **main IL track does not need a reward** (it learns from demonstrations). On the
-**advanced RL track**, designing a dense/shaped reward that converges is **your** job — there is no
-example dense reward in the starter.
-
-You may **not** change the environment, action space, observation interface, or success condition.
-
----
-
-## Bring your own policy
-
-`eval.py` only requires an object satisfying this contract:
-
-```python
-policy.act(obs, deterministic=True) -> Tensor   # shape (num_envs, action_dim), values in [-1, 1]
-```
-
-`obs` is **exactly** the environment's observation in the difficulty's locked mode and nothing else —
-the policy never sees the env, the ground-truth state, or the scorer, so it can't read privileged
-info or game the geometric check. Any BC/DP/ACT model, RL net, scripted controller, or classical
-pipeline that meets the contract works.
-
-Point `eval.py`/`test.py` at your policy with a loader entrypoint:
-
-```bash
-pixi run python eval.py difficulty=easy obs_mode=state checkpoint=<path> \
-    eval_config=conf/eval/default.yaml policy=warehouse_sort.il_policy:load_dp
-```
-
-```python
-# my_submission.py
-def load_policy(checkpoint, sample_obs, action_space, device):
-    return MyPolicy(checkpoint, sample_obs, action_space, device)   # has .act(obs, deterministic=True)
-```
-
-Leave `policy` unset to load the built-in `Agent` from your checkpoint. Judging uses the same
-`policy=` entrypoint.
+The held-out judge configs use the same difficulty levels but with different seeds and
+slightly wider position randomization — build for generalization, not for the exact training layout.
 
 ---
 
 ## Scoring
 
-**Primary metric: sort accuracy** — fraction of parcels placed in the correct-color bin, averaged
-over the eval episodes. A parcel is correctly sorted when it rests inside the bin whose color matches
-its tag. The geometric check, per parcel `j` whose matching bin is centered at `(bx, by)`:
+**Sort accuracy** — fraction of parcels in the correct-color bin at episode end.
 
-```
-|parcel.x - bx| < 0.11 m   AND   |parcel.y - by| < 0.13 m   AND   0 < parcel.z < 0.06 m
-```
-
-i.e. the body is inside the bin's 0.22 m × 0.26 m footprint, settled low under the ~0.05 m wall rim.
-**Scoring is geometric and deterministic.** A parcel in the *wrong*-color bin is a mis-sort
-(diagnostic), not a success, and is not retried.
-
-Reported by the eval/judge harness:
-- `sort_accuracy` — **primary ranking metric** (reported **seen-layout vs held-out-layout**)
-- `task_progress` — graded partial credit (reach → grasp → carry → place), so near-misses count
-- `mean_sorted/episode` — parcels sorted out of total
-- `all_placed_rate` — fraction of episodes where every parcel was placed (anywhere)
-- `mean_steps` — **speed, tiebreaker only** (lower is better)
-- `mis_sort_rate` — wrong-bin placements (diagnostic)
-
-The episode ends when all parcels are placed or the (parcel-count-scaled) step limit is reached.
+The check is **geometric and deterministic**: a parcel is correctly sorted when its body
+rests inside the footprint of the matching-color bin and is settled low (below the rim).
+The judge reports per-level accuracy plus a **weighted average** across levels.
 
 ---
 
-## How judging works — read this
-
-Policies are run by the organizers through a **fixed evaluation harness on held-out configs**, using
-**the exact same `eval.py` interface and your trained checkpoint**. Judging:
-
-- runs **all three levels** (easy, medium, hard), each on a **held-out config** that widens the
-  position randomization (larger spawn jitter, full bin-side swaps) and uses a **distinct seed
-  list** — the task, colors, mapping, and success check are identical to what you trained on;
-- reports **per-level** `sort_accuracy` and `task_progress`, plus a **weighted average** across
-  levels as the headline number;
-- reports **seen-layout vs held-out-layout** accuracy side by side — the gap is the generalization
-  signal;
-- **locks the obs mode** to each difficulty's default (state for the main track).
-
-The held-out seeds and ranges are **not released**. The visible `conf/eval/default.yaml` is
-same-distribution so you can rehearse the exact interface; your real score comes from the held-out
-configs. Build for **generalization across layouts**, not for the visible distribution.
-
-Make sure your checkpoint loads and runs under `eval.py` with no code changes — that's exactly what
-the judges run.
-
----
-
-## Quickstart (notebook)
-
-For the IL track, open [`il/notebook_il.ipynb`](il/notebook_il.ipynb) (works in Google Colab — select
-a GPU runtime); see [`il/README.md`](il/README.md). The root `notebook.ipynb` walks the env, the
-observations, a short training, then test and eval, finishing with a rendered rollout.
-
----
-
-## Setup
-
-This repo is [pixi](https://pixi.sh)-managed; all commands run inside the pixi environment.
+## Quick start
 
 ```bash
-pixi install          # create the environment from pixi.toml / pixi.lock
-pixi run install      # pip install -e .  (installs the warehouse_sort package + deps)
+# 1. Install
+pixi install
+pixi run install        # pip install -e .
+
+# 2. Generate demonstrations (easy level, 60 episodes)
+pixi run python il/gen_demos.py --num-episodes 60 --action-noise 0.05
+
+# 3. Train state Diffusion Policy
+pixi run python il/train.py method=dp
+
+# 4. Evaluate
+pixi run python eval.py difficulty=easy obs_mode=state \
+    policy=warehouse_sort.il_policy:load_dp \
+    checkpoint=il/baselines/diffusion_policy/runs/warehouse_state_dp_easy/checkpoints/best_eval_success_at_end.pt \
+    eval_config=conf/eval/default.yaml
 ```
 
-A CUDA GPU is required (ManiSkill 3 GPU simulation). Convenience tasks `pixi run train|test|eval` are
-defined (append Hydra overrides).
+For a guided walkthrough, open **[starter.ipynb](starter.ipynb)** (works in Google Colab — select a GPU runtime).
 
 ---
 
-## Running
+## Observations
 
-### Main track — state IL
-```bash
-pixi run python il/gen_demos.py --num-episodes 60 --action-noise 0.05   # demos
-pixi run python il/train.py method=dp                                    # Diffusion Policy on state
-pixi run python eval.py difficulty=easy obs_mode=state checkpoint=<ckpt> \
-    eval_config=conf/eval/default.yaml policy=warehouse_sort.il_policy:load_dp
-```
+### State (main track)
+A flat `float32` vector, shape `(num_envs, 54)` for easy (2 parcels):
 
-### Advanced — image IL / state RL (open problems)
-```bash
-pixi run python il/train.py method=dp_rgb        # image (scene-cam) Diffusion Policy — open
-pixi run python train.py difficulty=medium       # PPO on sparse reward — bring your own reward
-```
+| slice | field | dims |
+|-------|-------|------|
+| `[0:9]` | joint positions (`qpos`) | 9 |
+| `[9:18]` | joint velocities (`qvel`) | 9 |
+| `[18:25]` | TCP pose (xyz + quat wxyz) | 7 |
+| `[25:26]` | is_grasped | 1 |
+| `[26:40]` | parcel poses (xyz + quat per parcel) | P×7 |
+| `[40:44]` | parcel tag colors (one-hot [red, blue]) | P×2 |
+| `[44:50]` | bin positions (xyz of red bin, blue bin) | 2×3 |
+| `[50:54]` | bin color one-hot | 2×2 |
 
-### Test / Eval
-```bash
-pixi run python test.py difficulty=medium checkpoint=outputs/<date>/<time>/ckpt.pt
-pixi run python eval.py difficulty=hard checkpoint=<ckpt> eval_config=conf/eval/default.yaml
-```
-`conf/eval/default.yaml` is same-distribution as training (rehearse the interface). The **held-out
-judging configs are not included** — judges run the same `eval.py` against held-out layout configs
-across all levels.
+Total dim = `26 + P×7 + P×2 + 6 + 4` (= 54 for P=2).
+
+### RGB (advanced track — image template, not yet working)
+A fixed third-person scene camera. With `FlattenRGBDObservationWrapper`:
+- `obs["rgb"]`: `(N, 128, 128, 3)` uint8, RGB channel order
+- `obs["state"]`: `(N, 26)` float32 — proprioception only (no parcel/bin info)
 
 ---
 
-## Provided
+## Action space
 
-- The **ManiSkill 3 environment**, a **scripted/waypoint reference policy**, and a **demonstration
-  dataset** (easy / medium / hard + mixed; randomized order; realistic imperfections, never a
-  mis-sort).
-- An **IL starter** (state MLP-BC + state Diffusion Policy / ACT; RGB DP as the advanced template)
-  following ManiSkill's standard IL pipeline.
-- A **sparse reward** for the advanced RL track (design your own dense reward).
-- A **Colab-compatible runner**.
+`pd_ee_delta_pos`, 4 dims in `[-1, 1]`:
 
-Held-out judge seeds and ranges are **not released**.
+| dims | meaning |
+|------|---------|
+| `[0:3]` | end-effector delta xyz (±0.1 m/step) |
+| `[3]` | gripper: +1 = open, −1 = close |
 
 ---
 
-## Tips (not requirements)
+## Reward
 
-- Get `difficulty=easy` (state) running first to confirm your pipeline, then move up.
-- The main-track challenge is **generalizing to unseen layouts**, not perception — anything that
-  helps the policy handle new positions and bin arrangements (position augmentation, randomized
-  training layouts) is likely worth the most.
-- Keep `num_envs` sized to your GPU.
-- Image IL and state RL are the **open** track — expect them to be hard.
+**Sparse only: `+1` per correctly placed parcel.** No dense reward is provided. On the RL
+bonus track, designing a shaped reward is your job.
+
+---
+
+## How judging works
+
+The judges run your checkpoint against held-out configs via the same `eval.py` interface:
+
+```bash
+python eval.py difficulty=<level> checkpoint=<your_ckpt> \
+    policy=warehouse_sort.il_policy:load_dp \
+    eval_config=judge/heldout_<level>.yaml
+```
+
+The held-out configs use the same difficulty levels, same colors, and same success check —
+only the seeds and position randomization ranges differ. The observation mode is locked to
+the difficulty default (state for all levels on the main track), so you cannot use privileged
+state info at eval. Your checkpoint must load and run with no code changes.
+
+---
+
+## References
+
+- **ManiSkill 3** — GPU-accelerated robot simulation: [maniskill.ai](https://maniskill.ai) / [arxiv.org/abs/2410.00425](https://arxiv.org/abs/2410.00425)
+- **Diffusion Policy** — Chi et al. 2023: [diffusion-policy.cs.columbia.edu](https://diffusion-policy.cs.columbia.edu)
+- The RGB template is built on the ManiSkill IL baselines and **[LeRobot](https://github.com/huggingface/lerobot)** conventions.
+
+---
+
+## Repo layout
+
+```
+warehouse_sort/     # the ManiSkill environment + IL policy entrypoints
+  env.py            # WarehouseSort-v1 (register, scene, obs, reward, evaluate)
+  il_policy.py      # load_dp / load_dp_rgb — wire into eval.py via policy=...
+  utils.py          # env construction, rollout, metrics printing
+
+conf/               # Hydra configs
+  difficulty/       # easy.yaml / medium.yaml / hard.yaml
+  eval/default.yaml # same-distribution eval (rehearse the judge interface)
+
+il/                 # imitation learning
+  gen_demos.py      # record + replay demonstrations
+  train.py          # Hydra dispatcher -> vendored Diffusion Policy trainer
+  baselines/        # vendored ManiSkill DP baseline (diffusion_policy only)
+
+examples/
+  scripted_policy.py  # deterministic waypoint policy (demo source)
+
+eval.py             # evaluate a checkpoint (same interface as judging)
+test.py             # self-check on same-distribution episodes
+judge/              # held-out eval configs (not distributed to competitors)
+```

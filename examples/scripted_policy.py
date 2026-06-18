@@ -63,7 +63,7 @@ def _at(tcp, target, tol=TOL):
 
 
 def scripted_episode(env, max_steps=300, seed=42, action_noise=0.0, rng=None,
-                     stop_on_success=True, home_hold=12):
+                     stop_on_success=True, home_hold=12, return_home=True):
     """Run one scripted episode on a single-env WarehouseSortEnv wrapper.
 
     Returns a list of (obs, action, reward, info) tuples.
@@ -120,15 +120,17 @@ def scripted_episode(env, max_steps=300, seed=42, action_noise=0.0, rng=None,
         tags = base.parcel_tags[0].cpu().long().tolist()  # [tag_p0, tag_p1, ...]
 
         if parcel_idx >= n_parcels:
-            # CLEAN FINISH: all parcels placed. Open the gripper, lift off, and drive the TCP
-            # back to the start ("home") pose at carry height, then hold so every demo ends in
-            # an unambiguous parked state. (For quick video runs stop_on_success short-circuits
-            # this; for data gen it plays out and the hold gives a clear terminal frame.)
-            home_p = np.array([home_xyz[0], home_xyz[1], CARRY])
-            if not _at(tcp, home_p, tol=0.03):
-                action = _move(tcp, home_p, gripper=1.0, speed=SPEED)
+            # FINISH: all parcels placed.
+            #  * return_home=True: lift off and drive the TCP back to the start pose, then hold --
+            #    a clear terminal frame for demo VIDEOS.
+            #  * return_home=False (data gen default): just hold open in place for a short settle.
+            #    Imitation learners (and the DP zero-action padding) over-weight idle frames, so we
+            #    keep the tail short and sharp rather than adding ~30 slow "barely move" frames.
+            if return_home and not _at(tcp, np.array([home_xyz[0], home_xyz[1], CARRY]), tol=0.03):
+                action = _move(tcp, np.array([home_xyz[0], home_xyz[1], CARRY]),
+                               gripper=1.0, speed=SPEED)
             else:
-                action = _act([0, 0, 0], 1.0)
+                action = _act([0, 0, 0], 1.0)   # hold open; let the box settle into the bin
                 done_hold += 1
         else:
             p_pos = base.parcels[parcel_idx].pose.p[0].cpu().numpy()
@@ -251,8 +253,15 @@ _RAND_HARD = {
     "appearance":   {"cardboard_shade": [-0.06, 0.06], "tag_shade": [-0.05, 0.05]},
 }
 
+# Easy gets a SMALL pose jitter (less than medium): +/-2cm xy, no yaw, bins fixed -> the policy
+# must read parcel position from the obs (a gentle generalisation test, not memorisation).
+_RAND_EASY = {
+    "parcel_pose":  {"xy_jitter": [-0.02, 0.02], "yaw_jitter": [0.0, 0.0]},
+    "bin_position": {"side_swap_prob": 0.0, "xy_jitter": [0.0, 0.0]},
+}
+
 DIFFICULTY_KWARGS = {
-    "easy":   dict(num_parcels=2, fixed_poses=True,  randomization=None),
+    "easy":   dict(num_parcels=2, fixed_poses=False, randomization=_RAND_EASY),
     "medium": dict(num_parcels=4, fixed_poses=False, randomization=_RAND_MEDIUM),
     "hard":   dict(num_parcels=6, fixed_poses=False, randomization=_RAND_HARD),
 }

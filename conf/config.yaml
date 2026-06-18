@@ -1,71 +1,29 @@
 # Root config. Composes a difficulty (defaults list) + shared params.
-# Override anything on the CLI, e.g.  python train.py difficulty=hard num_envs=256
+# Override anything on the CLI, e.g.  python eval.py difficulty=hard checkpoint=<path>
 defaults:
   - difficulty: easy
   - _self_
 
-# --- shared run params (BUILD_SPEC §8) ---
 seed: 0
-torch_deterministic: true
-num_envs: 512                 # ManiSkill PPO default; PickCube/StackCube state tuned use 1024
-total_steps: 10_000_000       # PickCube-v1 state budget (StackCube uses 25M)
+num_envs: 8               # for eval/test; scale up as GPU allows
 device: cuda
-evaluate: false               # if true, train.py only runs the eval loop on `checkpoint`
-# which registered env to build. Default is the full task; difficulty=simple switches to the
-# single-parcel SimpleSort-v1 ablation (env+reward in one file). Same harness for both.
-env_id: WarehouseSort-v1
-
-# --- in-loop evaluation + checkpointing (ported from the ManiSkill PPO baseline) ---
-# Every `eval_freq` updates, train.py runs the deterministic policy on a separate eval env
-# (full-horizon episodes), prints the §9.1 metrics, records an mp4 of the rollout, and saves
-# a checkpoint. Mirrors ppo.py's `iteration % eval_freq == 1` eval/save block.
-eval_freq: 15                 # in updates
-num_eval_envs: 8
-num_eval_steps: ${max_episode_steps}
-capture_video: true           # save eval rollout videos during training
-reward: sparse                # sparse | example_dense  (default sparse, §6)
-reward_impl: example_dense    # which dense reward when reward=example_dense: example_dense | staged
-control_mode: pd_ee_delta_pos # end-effector delta xyz + gripper (4 dims); see README §Action space
+control_mode: pd_ee_delta_pos
 max_episode_steps: 200
-# observation mode actually used. Defaults to the difficulty's default; train/test may
-# override on the CLI. eval.py IGNORES any override and locks to difficulty.obs_mode (§9).
+
+# observation mode (locked to difficulty default at eval time)
 obs_mode: ${difficulty.obs_mode}
 
 camera:
   width: 128
   height: 128
-# which camera feeds the rgb obs: "scene" (default — fixed third-person view so the whole
-# table/bins/robot stay visible, which is what actually solves the task) | "wrist".
+
+# which camera feeds the rgb obs: "scene" (default — fixed third-person) | "wrist"
 obs_camera: scene
 
-# checkpoint path (for test.py / eval.py; train.py writes one)
+# checkpoint path (for eval.py / test.py)
 checkpoint: null
-# eval config file path (eval.py only): conf/eval/default.yaml or judge/heldout.yaml
+# eval config file path (eval.py only)
 eval_config: null
-# OPTIONAL policy entrypoint "module:function" for eval.py/test.py. The function signature is
-# fn(checkpoint, sample_obs, action_space, device) -> object with .act(obs, deterministic=True).
-# Lets you plug in ANY policy (not just the built-in Agent / not just RL). null -> built-in Agent.
+# policy entrypoint "module:function" — required for eval.py / test.py
+# e.g.  policy=warehouse_sort.il_policy:load_dp
 policy: null
-
-# --- PPO hyperparameters ---
-# These mirror the ManiSkill PPO baseline (examples/baselines/ppo/ppo.py) defaults used for
-# STATE training on PickCube-v1 / StackCube-v1: gamma=0.8, gae_lambda=0.9, num_steps=50,
-# update_epochs=8, num_minibatches=32, target_kl=0.1. train.py implements that exact algorithm
-# (partial reset, value bootstrap on truncation/termination, action clipping). Tune freely.
-ppo:
-  lr: 3.0e-4
-  num_steps: 50            # rollout length per env per update
-  update_epochs: 8
-  num_minibatches: 32
-  gamma: 0.8
-  gae_lambda: 0.9
-  clip_coef: 0.2
-  ent_coef: 0.0
-  vf_coef: 0.5
-  max_grad_norm: 0.5
-  target_kl: 0.1           # early-stop a policy update once approx KL exceeds this (null disables)
-  norm_adv: true           # normalise advantages per minibatch
-  clip_vloss: false        # clipped value loss (off by default, as in the baseline)
-  finite_horizon_gae: false
-  anneal_lr: false
-  reward_scale: 1.0

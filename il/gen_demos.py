@@ -38,7 +38,7 @@ CONTROL_MODE = "pd_ee_delta_pos"   # the fixed task controller (README §Action 
 
 
 def record_raw_demos(out_dir, difficulty, num_episodes, action_noise, base_seed, max_steps,
-                     obs_camera="scene"):
+                     obs_camera="scene", return_home=False, home_hold=5):
     """Roll the scripted policy for ``num_episodes`` seeds and save raw .h5 + .json.
 
     ``obs_camera`` is baked into the recorded env_kwargs, so the later ``replay_trajectory`` step
@@ -76,7 +76,7 @@ def record_raw_demos(out_dir, difficulty, num_episodes, action_noise, base_seed,
         rng = np.random.default_rng(seed)
         history = scripted_episode(
             env, max_steps=max_steps, seed=seed, action_noise=action_noise, rng=rng,
-            stop_on_success=False,   # play out the clean finish: release -> lift -> return home
+            stop_on_success=False, return_home=return_home, home_hold=home_hold,
         )
         info = history[-1][-1]
         sc = info.get("success_count")
@@ -117,14 +117,15 @@ def replay(h5_path, obs_mode, suffix):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--difficulty", default="easy", choices=["easy", "medium", "hard"])
+    ap.add_argument("--difficulty", default="easy",
+                    choices=["easy", "medium", "hard", "imgsimple"])
     ap.add_argument("--num-episodes", type=int, default=60)
     ap.add_argument("--action-noise", type=float, default=0.03,
                     help="std of Gaussian noise on xyz action dims during collection; spreads "
                          "the demo state distribution to fight BC covariate shift (0 = none)")
     ap.add_argument("--base-seed", type=int, default=1000)
     ap.add_argument("--max-steps", type=int, default=200,
-                    help="per-episode cap; demos end ~12 steps after the arm parks at home")
+                    help="per-episode cap; demos end shortly after the last placement settles")
     ap.add_argument("--out-dir", default=None)
     ap.add_argument("--no-replay", action="store_true",
                     help="only record raw demos; skip the replay_trajectory obs conversion")
@@ -132,6 +133,11 @@ def main():
                     help="which obs representations to produce via replay_trajectory")
     ap.add_argument("--obs-camera", default="scene", choices=["scene", "wrist"],
                     help="camera for the rgb obs: 'scene' = fixed third-person (whole workspace)")
+    ap.add_argument("--return-home", action="store_true",
+                    help="after the last placement, return the arm home (clearer videos but adds "
+                         "~30 idle frames the learner over-weights). Default off -> sharp demos.")
+    ap.add_argument("--home-hold", type=int, default=5,
+                    help="frames to hold still at the end (lets the box settle so success latches)")
     args = ap.parse_args()
 
     out_dir = args.out_dir or os.path.join(
@@ -139,7 +145,8 @@ def main():
     )
     h5 = record_raw_demos(out_dir, args.difficulty, args.num_episodes,
                           args.action_noise, args.base_seed, args.max_steps,
-                          obs_camera=args.obs_camera)
+                          obs_camera=args.obs_camera, return_home=args.return_home,
+                          home_hold=args.home_hold)
 
     if not args.no_replay:
         for om in args.obs_modes:
