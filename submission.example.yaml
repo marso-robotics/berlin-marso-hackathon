@@ -1,40 +1,30 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # SUBMISSION MANIFEST  (copy to submission.yaml and edit)
 #
-# This is the ONE file a team hands to the judge. It declares:
-#   * which policy code loads your checkpoint (the obs→action contract),
-#   * which difficulty levels you want scored,
-#   * the checkpoint to use for each.
+# Declare the track(s) you trained — `state`, `rgb`, or both. Each track has its own
+# policy entrypoint and one checkpoint PER difficulty level. The judge scores every
+# track you fill in and reports a weighted sort-accuracy per track.
 #
-# The judge runs the held-out eval for every level you declare and computes the weighted
-# sort-accuracy score. A level you do NOT declare scores 0 (its weight still counts:
-# easy 0.2, medium 0.3, hard 0.5).
+# Per-level weights: easy 0.2, medium 0.3, hard 0.5. A level you omit scores 0 (its
+# weight still counts). Omit a whole track (`state` or `rgb`) to skip it.
 #
-# MAIN TRACK = state. The state vector is parcel-count-specific, so train and submit ONE
-# checkpoint PER level (easy/medium/hard each have their own). For the optional image track,
-# set `obs_mode: rgb` and use the rgb policy entrypoint.
+# State track: privileged low-dim state vector; the state vector is parcel-count-specific,
+# so train ONE checkpoint per level. RGB track (optional): scene-camera image only.
 # ─────────────────────────────────────────────────────────────────────────────
 
 team: "team-name"
 
-# Policy entrypoint  "module:function"  (see warehouse_sort/il_policy.py and
-# examples/random_policy.py for the contract). Used for every level unless overridden.
-policy: warehouse_sort.il_policy:load_dp
+state:
+  policy: warehouse_sort.il_policy:load_dp          # obs→action entrypoint (state)
+  levels:
+    easy:   { checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_easy/checkpoints/best_eval_sort_accuracy.pt }
+    medium: { checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_medium/checkpoints/best_eval_sort_accuracy.pt }
+    hard:   { checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_hard/checkpoints/best_eval_sort_accuracy.pt }
 
-# Observation mode for the whole submission: state (main track) or rgb (optional image track).
-# Optional — defaults to state.
-obs_mode: state
-
-levels:
-
-  easy:
-    checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_easy/checkpoints/best_eval_sort_accuracy.pt
-
-  medium:
-    checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_medium/checkpoints/best_eval_sort_accuracy.pt
-
-  hard:
-    checkpoint: il/baselines/diffusion_policy/runs/warehouse_state_dp_hard/checkpoints/best_eval_sort_accuracy.pt
-
-    # You can override the entrypoint per level too, e.g. a different approach on hard:
-    # policy: my_module:load_policy
+# Optional image track — delete this whole block if you only did state.
+rgb:
+  policy: warehouse_sort.il_policy:load_dp_rgb       # obs→action entrypoint (rgb)
+  levels:
+    easy:   { checkpoint: il/baselines/diffusion_policy/runs/warehouse_rgb_dp_easy/checkpoints/best_eval_sort_accuracy.pt }
+    medium: { checkpoint: il/baselines/diffusion_policy/runs/warehouse_rgb_dp_medium/checkpoints/best_eval_sort_accuracy.pt }
+    hard:   { checkpoint: il/baselines/diffusion_policy/runs/warehouse_rgb_dp_hard/checkpoints/best_eval_sort_accuracy.pt }

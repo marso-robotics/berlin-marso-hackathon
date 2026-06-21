@@ -19,8 +19,8 @@ Your repo must contain:
    for a custom approach it's your own module — see §3).
 2. **Your checkpoint file(s)** — committed to the repo (or fetchable by a script in
    it). Reference them by path in the manifest.
-3. **`submission.yaml`** at the repo root — the manifest declaring your entrypoint,
-   the levels you want scored and the checkpoint for each (see §4).
+3. **`submission.yaml`** at the repo root — declares the track(s) you trained (`state`,
+   `rgb`, or both), each with its policy entrypoint + a checkpoint per level (see §4).
 
 Make sure a fresh clone installs cleanly (`pixi install && pixi run install`) and
 that your entrypoint imports without your training code present — evaluation only
@@ -34,8 +34,8 @@ ever calls your `load_fn` and `.act(obs)`.
               you train                     you declare           evaluated on
   ┌─────────────────────────────┐   ┌────────────────────────┐   held-out configs
   demos ─► il/train.py ─► ckpt.pt    submission.yaml           ┌───────────────────┐
-                  │                    policy: module:fn       │   eval.py pipeline │
-                  │                    levels: {ckpt}          └─────────┬─────────┘
+                  │                    state/rgb tracks:      │   eval.py pipeline │
+                  │                     policy + per-level ckpt└─────────┬─────────┘
                   ▼                          │                            │
        warehouse_sort/il_policy.py ◄─────────┘                            ▼
        load_dp(ckpt, obs, act, dev)                                  sort_accuracy
@@ -160,36 +160,43 @@ Then point the manifest at it: `policy: my_module:load_policy`.
 ## 4. The submission manifest
 
 Submit **one `submission.yaml`** at your repo root (template:
-[submission.example.yaml](submission.example.yaml)). It is the single place where you
-declare the **list of difficulties** you want scored and the checkpoint for each.
+[submission.example.yaml](submission.example.yaml)). Declare the **track(s)** you trained —
+`state`, `rgb`, or **both**. Each track has its own policy entrypoint and one checkpoint per
+difficulty level:
 
 ```yaml
 team: "team-name"
-policy: warehouse_sort.il_policy:load_dp       # obs→action entrypoint
-obs_mode: state                                # state (main) or rgb (image track); default state
 
-levels:                                        # declare only the levels you want scored
-  easy:   { checkpoint: <path-to-easy-ckpt> }
-  medium: { checkpoint: <path-to-medium-ckpt> }
-  hard:   { checkpoint: <path-to-hard-ckpt> }
+state:                                       # main track (privileged state vector)
+  policy: warehouse_sort.il_policy:load_dp
+  levels:
+    easy:   { checkpoint: <path-to-easy-ckpt> }
+    medium: { checkpoint: <path-to-medium-ckpt> }
+    hard:   { checkpoint: <path-to-hard-ckpt> }
+
+rgb:                                         # optional image track — omit if you didn't do it
+  policy: warehouse_sort.il_policy:load_dp_rgb
+  levels:
+    easy:   { checkpoint: <path-to-easy-ckpt> }
+    medium: { checkpoint: <path-to-medium-ckpt> }
+    hard:   { checkpoint: <path-to-hard-ckpt> }
 ```
 
-- **List of difficulties** = the keys under `levels`. Omit a level → it scores 0
-  (but its weight still counts: easy 0.2, medium 0.3, hard 0.5).
-- **checkpoint** — the state vector is parcel-count-specific, so train and point at **one
-  checkpoint per level** (easy/medium/hard each have their own).
-- **obs_mode** — `state` (main track, default) or `rgb` (optional image track). The judge runs
-  the env in this mode, so it must match what your policy expects.
-- **policy** can be overridden per level (e.g. a different approach on hard only). For the image
-  track set `policy: …:load_dp_rgb` and `obs_mode: rgb`.
+- **Tracks** — include `state`, `rgb`, or both. Each is scored independently; the judge runs the
+  env in that observation mode (state vs rgb) so your policy gets the inputs it expects.
+- **policy** — the `module:function` entrypoint for that track (`load_dp` for state, `load_dp_rgb`
+  for rgb, or your own).
+- **levels / checkpoint** — one checkpoint per difficulty (the state vector is
+  parcel-count-specific). Omit a level → it scores 0, but its weight still counts.
 
 ## Scoring
 
-The primary metric is **sort accuracy** — the fraction of parcels placed in the
-correct-color bin. Each declared level is scored on a held-out config, then combined:
+The primary metric is **sort accuracy** — the fraction of parcels placed in the correct-color
+bin. Each declared level is scored on a held-out config, then combined **per track**:
 
 ```
 final = 0.2 · sort_accuracy_easy + 0.3 · sort_accuracy_medium + 0.5 · sort_accuracy_hard
 ```
 
-Higher weight on harder levels rewards generalization.
+The judge reports a weighted score for **each track you submitted** (e.g. a state score and an
+rgb score). Higher weight on harder levels rewards generalization.
